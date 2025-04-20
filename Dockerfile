@@ -2,8 +2,8 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t highrise .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name highrise highrise
+# docker build -t phoenix .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name phoenix phoenix
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
