@@ -1,6 +1,6 @@
 <h1>Sign Up</h1>
 
-<%= form_with model: @user, url: registration_path do |f| %>
+<%= form_with model: @user, url: registration_path do |form| %>
   <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
 
   <% if @user.errors.any? %>
@@ -10,21 +10,21 @@
   <% end %>
 
   <div>
-    <%= f.label :email_address %>
-    <%= f.text_field :email_address, required: true %>
+    <%= form.label :email_address %>
+    <%= form.text_field :email_address, required: true %>
   </div>
 
   <div>
-    <%= f.label :password %>
-    <%= f.password_field :password, required: true %>
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true %>
   </div>
 
   <div>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, required: true %>
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation, required: true %>
   </div>
 
-  <%= f.submit "Sign Up", class: "btn" %>
+  <%= form.submit "Sign Up", class: "btn" %>
 <% end %>
 <br>
 
