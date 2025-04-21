@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resource :session, except: %i[new]
   resources :passwords, param: :token
 
-  # Registration.
-  get "signup", to: "registrations#new", as: :new_registration
-  resource :registration, only: %i[create]
+  # Registration / Account management.
+  get "signup", to: "users#new", as: :new_user
+  resource :users, only: %i[create]
 end

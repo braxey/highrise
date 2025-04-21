@@ -1,6 +1,6 @@
-class RegistrationsController < ApplicationController
+class UsersController < ApplicationController
   allow_unauthenticated_access
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_registration_url, alert: "Try again later." }
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_user_url, alert: "Try again later." }
 
   def new
     @user = User.new
