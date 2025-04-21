@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resource :session
-  resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,7 +9,18 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
+  # Landing page.
   root "pages#home"
+
+  # Dashboards.
   get "dashboard", to: "pages#dashboard"
+
+  # Auth routes.
+  get "login", to: "sessions#new", as: :new_session
+  resource :session, except: %i[new]
+  resources :passwords, param: :token
+
+  # Registration.
+  get "signup", to: "registrations#new", as: :new_registration
+  resource :registration, only: %i[create]
 end
