@@ -10,6 +10,11 @@ module Authentication
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
     end
+
+    def disallow_authenticated_access(**options)
+      allow_unauthenticated_access(**options.except(:fallback_location))
+      before_action -> { redirect_if_authenticated(options[:fallback_location] || root_url) }, **options
+    end
   end
 
   private
@@ -35,7 +40,7 @@ module Authentication
     end
 
     def after_authentication_url
-      session.delete(:return_to_after_authenticating) || root_url
+      session.delete(:return_to_after_authenticating) || dashboard_url
     end
 
     def start_new_session_for(user)
@@ -48,5 +53,9 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+    end
+
+    def redirect_if_authenticated(fallback_location)
+      redirect_back(fallback_location: fallback_location) if authenticated?
     end
 end
