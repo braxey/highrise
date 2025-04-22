@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  disallow_authenticated_access only: :home, fallback_location: :another_page
+  disallow_authenticated_access only: :home, fallback_location: :dashboard
 
   def home
   end
