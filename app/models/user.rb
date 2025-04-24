@@ -9,4 +9,11 @@ class User < ApplicationRecord
             length: { maximum: 255 },
             format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email address" }
   validates :password, length: { minimum: 8 }, if: :password
+
+  after_create_commit :send_welcome_email
+
+  private
+    def send_welcome_email
+      UsersMailer.with(user: self).welcome.deliver_later
+    end
 end
