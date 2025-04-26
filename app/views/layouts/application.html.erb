@@ -23,6 +23,13 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav>
+      <%= link_to "Dashboard", dashboard_path %>
+      <%= link_to "Roles", roles_path %>
+      <%= link_to "Organizations", organizations_path %>
+    </nav>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>
