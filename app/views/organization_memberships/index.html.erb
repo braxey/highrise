@@ -33,6 +33,7 @@
         <th>Email</th>
         <th>Role</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -41,6 +42,9 @@
           <td><%= invitation.email_address %></td>
           <td><%= invitation.role&.name || "None" %></td>
           <td><%= invitation.status.capitalize %></td>
+          <td>
+            <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation) %>
+          </td>
         </tr>
       <% end %>
     </tbody>
