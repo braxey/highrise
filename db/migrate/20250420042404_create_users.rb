@@ -6,7 +6,6 @@ class CreateUsers < ActiveRecord::Migration[8.0]
       t.string :first_name
       t.string :last_name
       t.boolean :is_active, default: true
-
       t.timestamps
     end
     add_index :users, :email_address, unique: true

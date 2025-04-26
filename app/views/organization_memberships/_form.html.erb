@@ -1,0 +1,29 @@
+<%= form_with model: [organization_membership.organization, organization_membership], local: true do |form| %>
+  <% if organization_membership.errors.any? || flash[:alert] %>
+    <div style="color: red;">
+      <h2>Error(s) occurred:</h2>
+      <ul>
+        <% organization_membership.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        <% if flash[:alert] %>
+          <li><%= flash[:alert] %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :email_address, "User Email" %>
+    <%= form.email_field :email_address, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :role_id, "Role" %>
+    <%= form.collection_select :role_id, Role.where(scope: "organization"), :id, :name, include_blank: "No role" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

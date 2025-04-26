@@ -55,7 +55,6 @@ class OrganizationsController < ApplicationController
       @organization = Organization.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
     def organization_params
       params.expect(organization: [ :name, :is_active ])
     end

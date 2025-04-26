@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_25_023058) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_26_020510) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,11 +39,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_023058) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "organization_memberships", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.integer "user_id", null: false
+    t.integer "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "user_id"], name: "index_organization_memberships_on_organization_id_and_user_id", unique: true
+    t.index ["organization_id"], name: "index_organization_memberships_on_organization_id"
+    t.index ["role_id"], name: "index_organization_memberships_on_role_id"
+    t.index ["user_id"], name: "index_organization_memberships_on_user_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.boolean "is_active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "scope", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "scope"], name: "index_roles_on_name_and_scope", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -68,5 +88,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_023058) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "organization_memberships", "organizations"
+  add_foreign_key "organization_memberships", "roles"
+  add_foreign_key "organization_memberships", "users"
   add_foreign_key "sessions", "users"
 end

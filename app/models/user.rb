@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
+  has_many :organization_memberships, dependent: :destroy
+  has_many :organizations, through: :organization_memberships
 
   validates :email_address, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 },
                             format: { with: URI::MailTo::EMAIL_REGEXP, message: EMAIL_MESSAGE }

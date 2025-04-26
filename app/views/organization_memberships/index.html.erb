@@ -1,0 +1,29 @@
+<h1>Members of <%= @organization.name %></h1>
+
+<% if @organization_memberships.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @organization_memberships.each do |membership| %>
+        <tr>
+          <td><%= membership.user.email_address %></td>
+          <td><%= membership.role&.name || "None" %></td>
+          <td>
+            <%= link_to "Remove", organization_organization_membership_path(@organization, membership), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No members found.</p>
+<% end %>
+
+<%= link_to "Add Member", new_organization_organization_membership_path(@organization), class: "btn btn-primary" %>
+<%= link_to "Back to Organization", organization_path(@organization) %>
