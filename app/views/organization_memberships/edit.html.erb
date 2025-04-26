@@ -1,0 +1,9 @@
+<% content_for :title, "Editing organization memebership" %>
+
+<h1>Editing organization membership</h1>
+ 
+<%= render "form", organization_membership: @organization_membership %>
+
+<%= link_to "Back to Members", organization_organization_memberships_path(@organization) %>
+
+<%= button_to "Destroy this membership", @organization_membership, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>

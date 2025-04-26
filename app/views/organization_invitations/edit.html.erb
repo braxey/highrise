@@ -1,0 +1,32 @@
+<% content_for :title, "Editing organization invitation" %>
+
+<h1>Editing organization invitation</h1>
+
+<%= form_with model: [@organization_invitation.organization, @organization_invitation], local: true do |form| %>
+  <% if organization_invitation.errors.any? || flash[:alert] %>
+    <div style="color: red;">
+      <h2>Error(s) occurred:</h2>
+      <ul>
+        <% @organization_invitation.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        <% if flash[:alert] %>
+          <li><%= flash[:alert] %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :role_id, "Role" %>
+    <%= form.collection_select :role_id, Role.where(scope: "organization"), :id, :name, include_blank: "No role", value: @organization_invitation.role.name %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+ 
+<%= link_to "Back to Members", organization_organization_memberships_path(@organization) %>
+
+<%= button_to "Destroy this invitation", @organization_invitation, method: :delete %>

@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :organization_memberships, dependent: :destroy
   has_many :organizations, through: :organization_memberships
+  has_many :organization_invitations, foreign_key: :invited_by, dependent: :destroy
 
   validates :email_address, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 },
                             format: { with: URI::MailTo::EMAIL_REGEXP, message: EMAIL_MESSAGE }

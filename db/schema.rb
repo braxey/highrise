@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_26_020510) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_020510) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "organization_invitations", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.integer "role_id"
+    t.string "email_address", null: false
+    t.string "token", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "accepted_at"
+    t.datetime "denied_at"
+    t.integer "invited_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invited_by_id"], name: "index_organization_invitations_on_invited_by_id"
+    t.index ["organization_id", "email_address"], name: "idx_on_organization_id_email_address_f8fe4b828f", unique: true
+    t.index ["organization_id"], name: "index_organization_invitations_on_organization_id"
+    t.index ["role_id"], name: "index_organization_invitations_on_role_id"
+    t.index ["token"], name: "index_organization_invitations_on_token", unique: true
   end
 
   create_table "organization_memberships", force: :cascade do |t|
@@ -88,6 +106,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_020510) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "organization_invitations", "organizations"
+  add_foreign_key "organization_invitations", "roles"
+  add_foreign_key "organization_invitations", "users", column: "invited_by_id"
   add_foreign_key "organization_memberships", "organizations"
   add_foreign_key "organization_memberships", "roles"
   add_foreign_key "organization_memberships", "users"

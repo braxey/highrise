@@ -5,6 +5,7 @@ class Organization < ApplicationRecord
 
   has_many :organization_memberships, dependent: :destroy
   has_many :users, through: :organization_memberships
+  has_many :organization_invitations, dependent: :destroy
 
   validates :name, length: { in: 2..100 }, format: { with: NAME_REGEX, message: NAME_MESSAGE }
   validates :is_active, inclusion: { in: [ true, false ] }
