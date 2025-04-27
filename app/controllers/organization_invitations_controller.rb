@@ -69,6 +69,9 @@ class OrganizationInvitationsController < ApplicationController
 
     def set_organization_invitation
       @organization_invitation = @organization.organization_invitations.find_by!(token: params[:token])
+      unless @organization_invitation
+        redirect_to root_path, alert: "This invitation is not valid"
+      end
     end
 
     def only_allow_invited
