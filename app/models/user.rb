@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
+  belongs_to :role, optional: true
   has_many :organization_memberships, dependent: :destroy
   has_many :organizations, through: :organization_memberships
   has_many :organization_invitations, foreign_key: :invited_by, dependent: :destroy
@@ -16,7 +17,6 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :first_name, length: { in: 2..100 }, format: { with: NAME_REGEX, message: NAME_MESSAGE }
   validates :last_name, length: { in: 2..100 }, format: { with: NAME_REGEX, message: NAME_MESSAGE }
-  validates :is_active, inclusion: { in: [ true, false ] }
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 

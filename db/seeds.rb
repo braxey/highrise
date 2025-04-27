@@ -7,3 +7,25 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+
+# Create the global admin role
+role = Role.find_or_create_by!(name: "Admin", scope: "global") do |r|
+  r.name = "Admin"
+  r.scope = "global"
+end
+
+# Create the Gillyware organization
+Organization.find_or_create_by!(name: "Gillyware, LLC") do |org|
+  org.name = "Gillyware, LLC"
+  org.is_active = true
+end
+
+# Create the global admin user
+User.find_or_create_by!(email_address: "braxeyy@gmail.com") do |u|
+  u.email_address = "braxeyy@gmail.com"
+  u.first_name = "Bradley"
+  u.last_name = "Johnson"
+  u.password = "gilgamesh"
+  u.role_id = role.id
+end

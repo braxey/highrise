@@ -70,8 +70,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "name"
-    t.boolean "is_active"
+    t.string "name", null: false
+    t.boolean "is_active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -98,10 +98,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
     t.string "password_digest", null: false
     t.string "first_name"
     t.string "last_name"
-    t.boolean "is_active", default: true
+    t.integer "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -113,4 +114,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
   add_foreign_key "organization_memberships", "roles"
   add_foreign_key "organization_memberships", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "users", "roles"
 end
