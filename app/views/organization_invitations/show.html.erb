@@ -1,6 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @organization_invitation %>
+<%= render "organization_invitation", locals: { organization_invitation: @organization_invitation } %>
 
 <p>You have been invited to join <%= @organization.name %></p>
 
