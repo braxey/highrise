@@ -12,8 +12,14 @@ class OrganizationInvitation < ApplicationRecord
 
   scope :pending, -> { where(status: "pending") }
 
+  after_save_commit :send_invitation, if: :status_is_pending?
+
   private
-    def status_changed_to_pending?
-      status_changed? && status == "pending"
+    def send_invitation
+      OrganizationInvitationsMailer.with(organization_invitation: self).notify_invited.deliver_later
+    end
+
+    def status_is_pending?
+      status == "pending"
     end
 end

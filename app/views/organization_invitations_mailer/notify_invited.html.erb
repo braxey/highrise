@@ -1,0 +1,7 @@
+<p>
+  You've been invited to join <%= @organization.name %>!
+  <br/>
+  You can accept or deny the invitation
+  <%= link_to "here", organization_organization_invitation_url(@organization, @organization_invitation.token) %>.
+  You will need to sign up if you do not already have an account.
+</p>
