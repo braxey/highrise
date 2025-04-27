@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @organization_invitation %>
+
+<p>You have been invited to join <%= @organization.name %></p>
+
+<div>
+  <%
+    invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
+    action_url = "#{invitation_path}/handle_invitation_response"
+  %>
+  <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true } %>
+  <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false } %>
+</div>

@@ -1,9 +1,14 @@
 class OrganizationInvitationsController < ApplicationController
   before_action :set_organization
-  before_action :set_organization_invitation, only: %i[ edit update destroy ]
+  before_action :set_organization_invitation, only: %i[show edit update destroy handle_invitation_response]
+  before_action :only_allow_invited, only: %i[show handle_invitation_response]
+  before_action :only_for_pending_invites, only: %i[show handle_invitation_response]
 
   def new
     @organization_invitation = @organization.organization_invitations.build
+  end
+
+  def show
   end
 
   def edit
@@ -11,9 +16,9 @@ class OrganizationInvitationsController < ApplicationController
 
   def create
     email = organization_invitation_params[:email_address]&.strip.downcase
+    invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build
 
-    # Find an existing invitation to this email from the organization, or create one.
-    invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build(
+    invitation.assign_attributes(
       email_address: email,
       role_id: organization_invitation_params[:role_id],
       invited_by: Current.session.user,
@@ -40,8 +45,21 @@ class OrganizationInvitationsController < ApplicationController
   def destroy
     email = @organization_invitation.email_address
     @organization_invitation.destroy!
-
     redirect_to organization_organization_memberships_path(@organization), status: :see_other, notice: "Invitation to #{email} revoked successfully"
+  end
+
+  def handle_invitation_response
+    if params[:invite_accepted] == "true"
+      @organization.organization_memberships.create!(
+        user: Current.session.user,
+        role: @organization_invitation.role
+      )
+      @organization_invitation.update!(status: "accepted", accepted_at: Time.current)
+      redirect_to organization_path(@organization), notice: "Invitation accepted. You are now a member of #{@organization.name}."
+    else
+      @organization_invitation.update!(status: "denied", denied_at: Time.current)
+      redirect_to dashboard_path, notice: "Invitation denied."
+    end
   end
 
   private
@@ -50,7 +68,20 @@ class OrganizationInvitationsController < ApplicationController
     end
 
     def set_organization_invitation
-      @organization_invitation = @organization.organization_invitations.find(params.expect(:id))
+      @organization_invitation = @organization.organization_invitations.find_by!(token: params[:token])
+    end
+
+    def only_allow_invited
+      unless Current.session.user&.email_address == @organization_invitation.email_address
+        redirect_to root_path, alert: "You are not authorized to view this invitation"
+      end
+    end
+
+    def only_for_pending_invites
+      puts @organization_invitation.status
+      unless @organization_invitation.status == "pending"
+        redirect_to root_path, alert: "This invitation is no longer valid"
+      end
     end
 
     def organization_invitation_params

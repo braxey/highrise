@@ -6,4 +6,4 @@
 
 <%= link_to "Back to Members", organization_organization_memberships_path(@organization) %>
 
-<%= button_to "Destroy this membership", @organization_membership, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<%= button_to "Destroy this membership", organization_organization_membership_path(@organization, @organization_membership), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>

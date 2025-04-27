@@ -15,7 +15,7 @@
           <td><%= membership.user.email_address %></td>
           <td><%= membership.role&.name || "None" %></td>
           <td>
-            <%= link_to "Edit", organization_organization_membership_path(@organization, membership) %>
+            <%= link_to "Edit", edit_organization_organization_membership_path(@organization, membership) %>
           </td>
         </tr>
       <% end %>
@@ -43,7 +43,7 @@
           <td><%= invitation.role&.name || "None" %></td>
           <td><%= invitation.status.capitalize %></td>
           <td>
-            <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation) %>
+            <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation.token) %>
           </td>
         </tr>
       <% end %>
