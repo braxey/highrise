@@ -1,14 +1,9 @@
 <% content_for :title, "Sign Up" %>
+<% content_for :card_title, "Create an Account" %>
 
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-    <h1 class="text-2xl font-bold text-center mb-6">Create an Account</h1>
+<%= render "form", user: @user %>
 
-    <%= render "form", user: @user %>
-
-    <div class="mt-4 text-center text-sm text-neutral-700">
-      Already have an account?&nbsp;
-      <%= link_to "Log in", new_session_path, class: "text-emerald-600 hover:text-emerald-700" %>
-    </div>
-  </div>
+<div class="mt-4 text-center text-sm text-neutral-700">
+  Already have an account?&nbsp;
+  <%= link_to "Log in", new_session_path, class: "text-emerald-600 hover:text-emerald-700" %>
 </div>
