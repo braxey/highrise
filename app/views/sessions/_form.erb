@@ -1,0 +1,23 @@
+<%= form_with url: session_path, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+  <%
+    input_group_classes = "grid gap-2"
+    label_classes = "text-sm font-semibold text-neutral-800"
+    input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+  %>
+
+  <div class="<%= input_group_classes %>">
+    <%= form.label :email_address, class: "#{label_classes}" %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "email@example.com", class: "#{input_classes}" %>
+
+    <% if flash[:alert] %>
+      <%= form.input_error :email_address, message: flash[:alert] %>
+    <% end %>
+  </div>
+
+  <div class="<%= input_group_classes %>">
+    <%= form.label :password, class: "#{label_classes}" %>
+    <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Password", maxlength: 72, class: "#{input_classes}" %>
+  </div>
+
+  <%= form.submit "Log In", class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
+<% end %>

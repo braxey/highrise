@@ -1,12 +1,18 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<% content_for :title, "Log In" %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h1 class="text-2xl font-bold text-center mb-6">Log In to Your Account</h1>
 
-<%= link_to "Sign Up", new_user_path %>
-<%= link_to "Forgot password?", new_password_path %>
+    <%= render "form" %>
+
+    <div class="mt-4 text-center text-sm text-neutral-700">
+      Don't have an account?&nbsp;
+      <%= link_to "Sign up", new_user_path, class: "text-emerald-600 hover:text-emerald-700" %>
+    </div>
+
+    <div class="mt-4 text-center text-sm text-neutral-700">
+      <%= link_to "Forgot password?", new_password_path, class: "text-emerald-600 hover:text-emerald-700" %>
+    </div>
+  </div>
+</div>
