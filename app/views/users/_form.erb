@@ -1,36 +1,49 @@
-<%= form_with model: @user do |form| %>
-  <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<%= form_with model: user, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+  <%
+    input_group_classes = "grid gap-2"
+    label_classes = "text-sm font-semibold text-neutral-800"
+    input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+  %>
 
-  <% if @user.errors.any? %>
-      <% @user.errors.full_messages.each do |msg| %>
-        <%= tag.div(msg, style: "color:red") %>
-      <% end %>
-  <% end %>
-
-  <div>
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, required: true %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :first_name, class: "#{label_classes}" %>
+    <%= form.text_field :first_name, required: true, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:first_name).each do |msg| %>
+      <%= form.input_error :first_name, message: msg %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, required: true %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :last_name, class: "#{label_classes}" %>
+    <%= form.text_field :last_name, required: true, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:last_name).each do |msg| %>
+      <%= form.input_error :last_name, message: msg %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :email_address %>
-    <%= form.email_field :email_address, required: true %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :email_address, class: "#{label_classes}" %>
+    <%= form.email_field :email_address, required: true, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:email_address).each do |msg| %>
+      <%= form.input_error :email_address, message: msg %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :password, class: "#{label_classes}" %>
+    <%= form.password_field :password, required: true, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:password).each do |msg| %>
+      <%= form.input_error :password, message: msg %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, required: true %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :password_confirmation, class: "#{label_classes}" %>
+    <%= form.password_field :password_confirmation, required: true, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:password_confirmation).each do |msg| %>
+      <%= form.input_error :password_confirmation, message: msg %>
+    <% end %>
   </div>
 
-  <%= form.submit "Sign Up", class: "btn" %>
+  <%= form.submit "Create Account", class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
 <% end %>

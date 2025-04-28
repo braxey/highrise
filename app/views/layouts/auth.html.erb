@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Phoenix" %></title>
+    <title>
+      <% if content_for?(:title) %>
+        <%= content_for(:title) %> - Phoenix
+      <% else %>
+        Phoenix
+      <% end %>
+    </title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -19,14 +27,15 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Dashboard", dashboard_path %>
-      <%= link_to "Roles", roles_path %>
-      <%= link_to "Organizations", organizations_path %>
-    </nav>
-    <main>
-      <%= render "shared/flash" %>
-      <%= yield %>
-    </main>
+    <div className="flex min-h-screen flex-col bg-[#FDFDFC]">
+      <main className="flex flex-1 flex-col items-center justify-center gap-8 p-6 lg:p-8">
+        <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
+          <div className="flex flex-col items-center gap-6">
+            <%= render "shared/flash" %>
+            <div className="w-full"><%= yield %></div>
+          </div>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
