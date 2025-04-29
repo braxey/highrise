@@ -15,7 +15,7 @@
 
   <div class="<%= input_group_classes %>">
     <%= form.label :scope, class: "#{label_classes}" %>
-    <%= form.text_field :scope, required: true, class: "#{input_classes}" %>
+    <%= form.dropdown :scope, options: [ [ "Global", "global" ], [ "Organization", "organization" ], [ "Project", "project" ] ] %>
     <% role.errors.full_messages_for(:scope).each do |msg| %>
       <%= form.input_error :scope, message: msg %>
     <% end %>
