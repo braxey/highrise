@@ -19,8 +19,9 @@ export default class extends Controller {
   select(event) {
     event.preventDefault();
     const value = event.currentTarget.dataset.value;
+    const label = event.currentTarget.dataset.label;
     this.inputTarget.value = value;
-    this.selectedTarget.textContent = value.charAt(0).toUpperCase() + value.slice(1);
+    this.selectedTarget.textContent = label;
     this.menuTarget.classList.add("hidden");
   }
 

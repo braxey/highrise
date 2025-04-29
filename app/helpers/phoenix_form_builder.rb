@@ -55,7 +55,7 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def dropdown(attribute, options = {})
-    button_classes = "w-full flex justify-between items-center text-sm rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+    button_classes = "w-full flex justify-between items-center text-sm rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none cursor-pointer"
     menu_classes = "hidden absolute z-10 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg"
     option_classes = "w-full px-3 py-2 text-sm text-left text-neutral-900 hover:bg-emerald-50 hover:text-emerald-600 capitalize transition-colors cursor-pointer"
 
@@ -78,7 +78,7 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
       end)
       @template.concat(@template.content_tag(:div, data: { dropdown_target: "menu" }, id: "dropdown-menu-#{attribute}", class: menu_classes) do
         options[:options].each do |label, value|
-          @template.concat(@template.content_tag(:button, label, type: "button", data: { action: "dropdown#select", value: value }, class: option_classes))
+          @template.concat(@template.content_tag(:button, label, type: "button", data: { action: "dropdown#select", value: value, label: label }, class: option_classes))
         end
       end)
     end
