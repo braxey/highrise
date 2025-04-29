@@ -22,6 +22,14 @@ class User < ApplicationRecord
 
   after_create_commit :send_welcome_email
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def initials
+    "#{first_name[0]&.upcase}#{last_name[0]&.upcase}"
+  end
+
   private
     def send_welcome_email
       UsersMailer.with(user: self).welcome.deliver_later

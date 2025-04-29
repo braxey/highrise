@@ -1,1 +1,104 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 8px;
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1a1a;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1a1a;
+  --color-primary: #292929;
+  --color-primary-foreground: #fafafa;
+  --color-secondary: #f7f7f7;
+  --color-secondary-foreground: #292929;
+  --color-muted: #f7f7f7;
+  --color-muted-foreground: #828282;
+  --color-accent: #f7f7f7;
+  --color-accent-foreground: #292929;
+  --color-destructive: #a22a20;
+  --color-destructive-foreground: #a22a20;
+  --color-border: #ececec;
+  --color-input: #ececec;
+  --color-ring: #dedede;
+  --color-chart-1: #c27231;
+  --color-chart-2: #4c8583;
+  --color-chart-3: #46565f;
+  --color-chart-4: #b3c25f;
+  --color-chart-5: #b7a346;
+  --color-sidebar: #fafafa;
+  --color-sidebar-foreground: #1a1a1a;
+  --color-sidebar-primary: #292929;
+  --color-sidebar-primary-foreground: #fafafa;
+  --color-sidebar-accent: #f7f7f7;
+  --color-sidebar-accent-foreground: #292929;
+  --color-sidebar-border: #ececec;
+  --color-sidebar-ring: #dedede;
+}
+
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-border);
+    font-family: var(--font-sans);
+  }
+
+  html {
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}

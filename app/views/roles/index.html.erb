@@ -1,16 +1,30 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Roles" %>
 
-<h1>Roles</h1>
+<div class="container mx-auto px-4 py-8">
+  <!-- Notice -->
+  <% if notice.present? %>
+    <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow-md">
+      <%= notice %>
+    </div>
+  <% end %>
 
-<div id="roles">
-  <% @roles.each do |role| %>
-    <%= render role %>
-    <p>
-      <%= link_to "Show this role", role %>
-    </p>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Roles</h1>
+    <%= link_to "New Role", new_role_path, class: "inline-flex items-center px-4 py-2 transition-colors duration-200 cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700" %>
+  </div>
+
+  <!-- Roles by Scope -->
+  <% %w[global organization project].each do |scope| %>
+    <% if @roles[scope].present? %>
+      <div class="mb-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 capitalize"><%= scope %></h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @roles[scope].each do |role| %>
+            <%= render role %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
-
-<%= link_to "New role", new_role_path %>

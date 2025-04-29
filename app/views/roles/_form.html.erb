@@ -1,27 +1,27 @@
-<%= form_with(model: role) do |form| %>
-  <% if role.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(role.errors.count, "error") %> prohibited this role from being saved:</h2>
+<%= form_with model: role, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+  <%
+    input_group_classes = "grid gap-2"
+    label_classes = "text-sm font-semibold text-neutral-800"
+    input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+  %>
 
-      <ul>
-        <% role.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :name, class: "#{label_classes}" %>
+    <%= form.text_field :name, required: true, class: "#{input_classes}" %>
+    <% role.errors.full_messages_for(:name).each do |msg| %>
+      <%= form.input_error :name, message: msg %>
+    <% end %>
+  </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="<%= input_group_classes %>">
+    <%= form.label :scope, class: "#{label_classes}" %>
+    <%= form.text_field :scope, required: true, class: "#{input_classes}" %>
+    <% role.errors.full_messages_for(:scope).each do |msg| %>
+      <%= form.input_error :scope, message: msg %>
+    <% end %>
   </div>
 
   <div>
-    <%= form.label :scope, style: "display: block" %>
-    <%= form.text_field :scope %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit content_for(:action), class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
   </div>
 <% end %>

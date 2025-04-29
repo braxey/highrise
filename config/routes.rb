@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resource :users, only: %i[create]
 
   # Roles.
-  resources :roles
+  resources :roles, except: :show
 
   # Organizations.
   resources :organizations do

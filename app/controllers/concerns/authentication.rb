@@ -12,8 +12,8 @@ module Authentication
     end
 
     def disallow_authenticated_access(**options)
-      allow_unauthenticated_access(**options.except(:fallback_location))
-      before_action -> { redirect_if_authenticated(options[:fallback_location] || root_url) }, **options
+      allow_unauthenticated_access(**options.except(:redirect_location))
+      before_action -> { redirect_if_authenticated(options[:redirect_location] || root_url) }, **options
     end
   end
 
@@ -55,7 +55,9 @@ module Authentication
       cookies.delete(:session_id)
     end
 
-    def redirect_if_authenticated(fallback_location)
-      redirect_back(fallback_location: fallback_location) if authenticated?
+    def redirect_if_authenticated(redirect_location)
+      if authenticated?
+        redirect_to redirect_location
+      end
     end
 end

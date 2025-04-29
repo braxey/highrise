@@ -1,11 +1,8 @@
 class RolesController < ApplicationController
-  before_action :set_role, only: %i[ show edit update destroy ]
+  before_action :set_role, only: %i[ edit update destroy ]
 
   def index
-    @roles = Role.all
-  end
-
-  def show
+    @roles = Role.all.group_by(&:scope)
   end
 
   def new
@@ -16,39 +13,25 @@ class RolesController < ApplicationController
   end
 
   def create
-    puts role_params
     @role = Role.new(role_params)
-
-    respond_to do |format|
-      if @role.save
-        format.html { redirect_to @role, notice: "Role was successfully created." }
-        format.json { render :show, status: :created, location: @role }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
-      end
+    if @role.save
+      redirect_to roles_path, notice: "Role was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    respond_to do |format|
-      if @role.update(role_params)
-        format.html { redirect_to @role, notice: "Role was successfully updated." }
-        format.json { render :show, status: :ok, location: @role }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
-      end
+    if @role.update(role_params)
+      redirect_to roles_path, notice: "Role was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @role.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to roles_path, status: :see_other, notice: "Role was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to roles_path, status: :see_other, notice: "Role was successfully deleted."
   end
 
   private

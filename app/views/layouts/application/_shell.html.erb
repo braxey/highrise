@@ -1,0 +1,5 @@
+<div class="flex min-h-screen w-full flex-col">
+  <% @current_user = Current.session&.user || nil %>
+  <%= render "layouts/application/header" %>
+  <%= render "layouts/application/content" %>
+</div>

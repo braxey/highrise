@@ -1,0 +1,20 @@
+<div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
+  <div class="flex flex-col items-center gap-6">
+    <div class="space-y-3 text-center">
+      <h1 class="text-2xl font-semibold text-neutral-900">
+        <%= content_for(:card_title) || content_for(:title) || "Card Title" %>
+      </h1>
+      <% if content_for?(:description) %>
+        <p class="text-sm text-neutral-700"><%= content_for :description %></p>
+      <% end %>
+    </div>
+
+    <% if notice.present? %>
+      <p class="text-sm text-emerald-600"><%= notice %></p>
+    <% end %>
+
+    <div class="w-full">
+      <%= yield %>
+    </div>
+  </div>
+</div>
