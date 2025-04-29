@@ -1,8 +1,10 @@
 <% content_for :title, "New Role" %>
 <% content_for :action, "Create" %>
+<% content_for :back_url, roles_path %>
+<% content_for :back_label, "Roles" %>
 
 <div class="h-full w-full flex flex-col justify-start items-center pt-8">
-<%= render "shared/card" do %>
-  <%= render "form", role: @role %>
-<% end %>
+  <%= render "shared/card" do %>
+    <%= render "form", role: @role %>
+  <% end %>
 </div>
