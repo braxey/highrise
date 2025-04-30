@@ -51,7 +51,7 @@ class OrganizationsController < ApplicationController
     def authorized_to_manage_organization(organization)
       is_phoenix_admin = session_user.role == Role.where(scope: "user", name: "Admin")
       organization_membership = organization.organization_memberships.where(user: session_user).first
-      is_organization_admin = organization_membership.role == Role.where(scope: "organization", name: "Admin").first
+      is_organization_admin = organization_membership&.role == Role.where(scope: "organization", name: "Admin").first
 
       is_phoenix_admin || is_organization_admin
     end
