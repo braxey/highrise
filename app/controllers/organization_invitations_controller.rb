@@ -1,8 +1,8 @@
 class OrganizationInvitationsController < ApplicationController
   before_action :set_organization
-  before_action :set_organization_invitation, only: %i[show edit update destroy handle_invitation_response]
-  before_action :only_allow_invited, only: %i[show handle_invitation_response]
-  before_action :only_for_pending_invites, only: %i[show handle_invitation_response]
+  before_action :set_organization_invitation, only: %i[ show edit update destroy handle_invitation_response ]
+  before_action :only_allow_invited, only: %i[ show handle_invitation_response ]
+  before_action :only_for_pending_invites, only: %i[ show handle_invitation_response ]
 
   def new
     @organization_invitation = @organization.organization_invitations.build
@@ -21,7 +21,7 @@ class OrganizationInvitationsController < ApplicationController
     invitation.assign_attributes(
       email_address: email,
       role_id: organization_invitation_params[:role_id],
-      invited_by: Current.session.user,
+      invited_by: session_user,
       status: "pending",
       accepted_at: nil,
       denied_at: nil,
@@ -51,7 +51,7 @@ class OrganizationInvitationsController < ApplicationController
   def handle_invitation_response
     if params[:invite_accepted] == "true"
       @organization.organization_memberships.create!(
-        user: Current.session.user,
+        user: session_user,
         role: @organization_invitation.role
       )
       @organization_invitation.update!(status: "accepted", accepted_at: Time.current)
@@ -72,7 +72,7 @@ class OrganizationInvitationsController < ApplicationController
     end
 
     def only_allow_invited
-      unless Current.session.user&.email_address == @organization_invitation.email_address
+      unless session_user&.email_address == @organization_invitation.email_address
         redirect_to root_path, alert: "You are not authorized to view this invitation"
       end
     end

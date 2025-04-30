@@ -1,5 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[ show edit update destroy ]
+  require_role Role.where(scope: "user", name: "Admin").first, only: %i[ index new ]
+  require_authorization -> { authorized_to_manage_organization(@organization) }, only: %i[ show edit update destroy ]
 
   def index
     @organizations = Organization.all
@@ -44,5 +46,13 @@ class OrganizationsController < ApplicationController
 
     def organization_params
       params.expect(organization: [ :name, :is_active ])
+    end
+
+    def authorized_to_manage_organization(organization)
+      is_phoenix_admin = session_user.role == Role.where(scope: "user", name: "Admin")
+      organization_membership = organization.organization_memberships.where(user: session_user).first
+      is_organization_admin = organization_membership.role == Role.where(scope: "organization", name: "Admin").first
+
+      is_phoenix_admin || is_organization_admin
     end
 end
