@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+prettier --write "./app/javascript/**/*.{js,css}"
+bundle exec rubocop -a
