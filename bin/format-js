@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+set -e
+exec prettier --write "./app/javascript/**/*.{js,css}"
