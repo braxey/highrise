@@ -1,4 +1,5 @@
 class RolesController < ApplicationController
+  require_role(Role.where(scope: "user", name: "Admin").first)
   before_action :set_role, only: %i[ edit update destroy ]
 
   def index

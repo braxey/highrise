@@ -9,10 +9,10 @@
 #   end
 
 
-# Create the global admin role
-role = Role.find_or_create_by!(name: "Admin", scope: "global") do |r|
+# Create the user admin role
+role = Role.find_or_create_by!(name: "Admin", scope: "user") do |r|
   r.name = "Admin"
-  r.scope = "global"
+  r.scope = "user"
 end
 
 # Create the Gillyware organization
@@ -21,7 +21,7 @@ Organization.find_or_create_by!(name: "Gillyware, LLC") do |org|
   org.is_active = true
 end
 
-# Create the global admin user
+# Create the user admin user
 User.find_or_create_by!(email_address: "braxeyy@gmail.com") do |u|
   u.email_address = "braxeyy@gmail.com"
   u.first_name = "Bradley"

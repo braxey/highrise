@@ -15,7 +15,7 @@
   </div>
 
   <!-- Roles by Scope -->
-  <% %w[global organization project].each do |scope| %>
+  <% %w[user organization project].each do |scope| %>
     <% if @roles[scope].present? %>
       <div class="mb-8">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 capitalize"><%= scope %></h2>
