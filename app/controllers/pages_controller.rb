@@ -5,5 +5,6 @@ class PagesController < ApplicationController
   end
 
   def dashboard
+    @user_organizations = session_user.organizations
   end
 end
