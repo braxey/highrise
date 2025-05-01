@@ -10,9 +10,9 @@
 
 
 # Create the user admin role
-role = Role.find_or_create_by!(name: "Admin", scope: "user") do |r|
-  r.name = "Admin"
-  r.scope = "user"
+role = Role.find_or_create_by!(scope: Constants::Roles::Scopes::USER, name: Constants::Roles::Names::ADMIN) do |r|
+  r.scope = Constants::Roles::Scopes::USER
+  r.name = Constants::Roles::Names::ADMIN
 end
 
 # Create the Gillyware organization

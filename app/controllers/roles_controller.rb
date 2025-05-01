@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-  require_role(Role.where(scope: "user", name: "Admin").first)
+  require_phoenix_admin
   before_action :set_role, only: %i[ edit update destroy ]
 
   def index

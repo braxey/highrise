@@ -15,7 +15,7 @@
 
   <div>
     <%= form.label :role_id, "Role" %>
-    <%= form.collection_select :role_id, Role.where(scope: "organization"), :id, :name, include_blank: "No role", value: organization_membership.role&.name %>
+    <%= form.collection_select :role_id, Role.where(scope: Constants::Roles::Scopes::ORGANIZATION), :id, :name, include_blank: "No role", value: organization_membership.role&.name %>
   </div>
 
   <div>
