@@ -13,7 +13,7 @@ class OrganizationsController < ApplicationController
     @total_organizations = Organization.count
     @last_page = (@total_organizations/@per_page.to_f).ceil
 
-    @organizations = Organization.limit(@per_page).offset(offset)
+    @organizations = Organization.includes(:users).limit(@per_page).offset(offset)
   end
 
   def show

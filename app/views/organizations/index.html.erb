@@ -21,6 +21,7 @@
       <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
         <tr>
           <th scope="col" class="px-6 py-3">Name</th>
+          <th scope="col" class="px-6 py-3">Members</th>
           <th scope="col" class="px-6 py-3">Actions</th>
         </tr>
       </thead>
@@ -29,6 +30,9 @@
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-4">
               <%= organization.name %>
+            </td>
+            <td class="px-6 py-4">
+              <%= organization.users.size %>
             </td>
             <td class="px-6 py-4 space-x-2">
               <%= link_to "Show", organization_path(organization),
