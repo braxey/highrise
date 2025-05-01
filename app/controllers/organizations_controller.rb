@@ -4,10 +4,15 @@ class OrganizationsController < ApplicationController
   require_authorization -> { authorized_to_manage_organization(@organization) }, only: %i[ show edit update destroy ]
 
   def index
+    @per_page = 3
+
     @current_page = params[:page].to_i || 1
     @current_page = 1 if @current_page < 1
-    @per_page = 10
     offset = (@current_page - 1) * @per_page
+
+    @total_organizations = Organization.count
+    @last_page = (@total_organizations/@per_page.to_f).ceil
+
     @organizations = Organization.limit(@per_page).offset(offset)
   end
 
@@ -24,7 +29,7 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
     if @organization.save
-      redirect_to @organization, notice: "Organization was successfully created."
+      redirect_to organizations_path, notice: "Organization #{organization_params[:name]} was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,15 +37,16 @@ class OrganizationsController < ApplicationController
 
   def update
     if @organization.update(organization_params)
-      redirect_to @organization, notice: "Organization was successfully updated."
+      redirect_to @organization, notice: "Organization #{organization_params[:name]} was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    name = @organization.name
     @organization.destroy!
-    redirect_to organizations_path, status: :see_other, notice: "Organization was successfully destroyed."
+    redirect_to organizations_path, status: :see_other, notice: "Organization #{name} was successfully deleted."
   end
 
   private
