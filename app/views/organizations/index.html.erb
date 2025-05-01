@@ -6,10 +6,18 @@
 
 <div id="organizations">
   <% @organizations.each do |organization| %>
-    <%= render organization %>
-    <p>
-      <%= link_to "Show this organization", organization %>
-    </p>
+    <div class="flex flex-row justify-between items-center gap-2">
+      <h2><%= organization.name %></h2>
+      <p><%= link_to "Show", organization_path(organization) %></p>
+    </div>
+  <% end %>
+  
+  <% if @current_page > 1 %>
+    <%= link_to "Previous", organizations_path(page: @current_page- 1) %>
+  <% end %>
+
+  <% if @organizations.size == @per_page %>
+    <%= link_to "Next", organizations_path(page: @current_page+ 1) %>
   <% end %>
 </div>
 

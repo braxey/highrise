@@ -4,7 +4,11 @@ class OrganizationsController < ApplicationController
   require_authorization -> { authorized_to_manage_organization(@organization) }, only: %i[ show edit update destroy ]
 
   def index
-    @organizations = Organization.all
+    @current_page = params[:page].to_i || 1
+    @current_page = 1 if @current_page < 1
+    @per_page = 2
+    offset = (@current_page - 1) * @per_page
+    @organizations = Organization.limit(@per_page).offset(offset)
   end
 
   def show
