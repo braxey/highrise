@@ -1,11 +1,11 @@
-<% content_for :title, "New organization" %>
+<% content_for :title, "New Organization" %>
+<% content_for :action, "Create" %>
+<% content_for :back_url, organizations_path %>
+<% content_for :back_label, "Organizations" %>
 
-<h1>New organization</h1>
-
-<%= render "form", organization: @organization %>
-
-<br>
-
-<div>
-  <%= link_to "Back to organizations", organizations_path %>
+<div class="h-full w-full flex flex-col justify-start items-center pt-8">
+  <%= render "shared/card" do %>
+    <%= render "form", organization: @organization %>
+  <% end %>
 </div>
+

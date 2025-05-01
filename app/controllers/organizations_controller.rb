@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
   require_authorization -> { authorized_to_manage_organization(@organization) }, only: %i[ show edit update destroy ]
 
   def index
-    @per_page = 3
+    @per_page = 10
 
     @current_page = params[:page].to_i || 1
     @current_page = 1 if @current_page < 1
@@ -29,7 +29,7 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
     if @organization.save
-      redirect_to organizations_path, notice: "Organization #{organization_params[:name]} was successfully created."
+      redirect_to organization_path(@organization), notice: "Organization #{organization_params[:name]} was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
