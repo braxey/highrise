@@ -22,8 +22,12 @@
               <td class="px-6 py-4"><%= membership.user.email_address %></td>
               <td class="px-6 py-4"><%= membership.role&.name || "None" %></td>
               <td class="px-6 py-4">
-                <%= link_to "Edit", edit_organization_organization_membership_path(@organization, membership),
-                    class: "text-emerald-600 hover:underline" %>
+                <div class="flex flex-row items-center justify-start gap-2">
+                  <%= link_to "Edit", edit_organization_organization_membership_path(@organization, membership),
+                      class: "text-emerald-600 hover:underline" %>
+
+                  <%= link_to "Remove", organization_organization_membership_path(@organization, membership), class: "text-red-600 hover:underline", method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+                </div>
               </td>
             </tr>
           <% end %>
@@ -35,10 +39,9 @@
   <% end %>
 
   <!-- Invitations Table -->
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Pending Invitations</h2>
-
-    <% if @invitations.any? %>
+  <% if @invitations.any? %>
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Pending Invitations</h2>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
@@ -62,14 +65,12 @@
           </tbody>
         </table>
       </div>
-    <% else %>
-      <div class="text-gray-600 italic">No pending invitations.</div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 
   <!-- Actions -->
   <div class="flex flex-wrap gap-4 mt-8">
-    <%= link_to "Add Member", new_organization_organization_invitation_path(@organization),
+    <%= link_to "Invite Member", new_organization_organization_invitation_path(@organization),
         class: "inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow" %>
 
     <%= link_to "Back to Organization", organization_path(@organization),

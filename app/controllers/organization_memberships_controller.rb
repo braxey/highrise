@@ -11,17 +11,17 @@ class OrganizationMembershipsController < ApplicationController
   end
 
   def update
-    if @organization_membership.update(organization_membership_params.slice(:role_id))
-      redirect_to organization_organization_memberships_path(@organization), notice: "Role of #{@user_name} updated successfully"
+    if @organization_membership.update(role_id: Role.find(organization_membership_params[:role]).id)
+      redirect_to organization_organization_memberships_path(@organization)
     else
-      redirect_to organization_organization_memberships_path(@organization), alert: "Failed to update role of #{@user_name}: #{invitation.errors.full_messages.join(', ')}"
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @organization_membership.destroy!
 
-    redirect_to organization_organization_memberships_path(@organization), status: :see_other, notice: "Membership of #{@user_name} revoked successfully"
+    redirect_to organization_organization_memberships_path(@organization)
   end
 
   private
@@ -35,6 +35,6 @@ class OrganizationMembershipsController < ApplicationController
     end
 
     def organization_membership_params
-      params.expect(organization_membership: [ :email_address, :role_id ])
+      params.expect(organization_membership: [ :email_address, :role ])
     end
 end

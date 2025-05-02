@@ -1,9 +1,11 @@
-<% content_for :title, "Editing organization memebership" %>
+<% content_for :title, "Edit Membership" %>
+<% content_for :card_title, "#{@organization_membership.user.full_name} in #{@organization.name}" %>
+<% content_for :action, "Update" %>
+<% content_for :back_url, organization_organization_memberships_path(@organization) %>
+<% content_for :back_label, "Members" %>
 
-<h1>Editing organization membership</h1>
- 
-<%= render "form", organization_membership: @organization_membership %>
-
-<%= link_to "Back to Members", organization_organization_memberships_path(@organization) %>
-
-<%= button_to "Destroy this membership", organization_organization_membership_path(@organization, @organization_membership), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<div class="h-full w-full flex flex-col justify-start items-center pt-8">
+  <%= render "shared/card" do %>
+    <%= render "form", organization_membership: @organization_membership %>
+  <% end %>
+</div>
