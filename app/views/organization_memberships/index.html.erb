@@ -1,6 +1,13 @@
 <% content_for :title, "Members of #{@organization.name}" %>
 
 <div class="container mx-auto px-4 py-12">
+  <!-- Notice -->
+  <% if notice.present? %>
+    <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow shadow-green-200">
+      <%= notice %>
+    </div>
+  <% end %>
+
   <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900">Members of <%= @organization.name %></h1>
   </div>
@@ -57,8 +64,12 @@
                 <td class="px-6 py-4"><%= invitation.email_address %></td>
                 <td class="px-6 py-4"><%= invitation.role&.name || "None" %></td>
                 <td class="px-6 py-4">
-                  <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation.token),
+                  <div class="flex flex-row items-center justify-start gap-2">
+                    <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation.token),
                       class: "text-emerald-600 hover:underline" %>
+
+                    <%= link_to "Revoke", organization_organization_invitation_path(@organization, invitation.token), class: "text-red-600 hover:underline", method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+                  </div>
                 </td>
               </tr>
             <% end %>

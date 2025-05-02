@@ -20,7 +20,7 @@ class OrganizationInvitationsController < ApplicationController
 
     invitation.assign_attributes(
       email_address: email,
-      role_id: organization_invitation_params[:role_id],
+      role_id: Role.find(organization_invitation_params[:role]).id,
       invited_by: session_user,
       status: "pending",
       accepted_at: nil,
@@ -35,7 +35,7 @@ class OrganizationInvitationsController < ApplicationController
   end
 
   def update
-    if @organization_invitation.update(organization_invitation_params.slice(:role_id))
+    if @organization_invitation.update(role_id: Role.find(organization_invitation_params[:role]).id)
       redirect_to organization_organization_memberships_path(@organization), notice: "Invitation to #{@organization_invitation.email_address} updated successfully"
     else
       redirect_to organization_organization_memberships_path(@organization), alert: "Failed to update invitation to #{@organization_invitation.email_address}: #{invitation.errors.full_messages.join(', ')}"
@@ -85,6 +85,6 @@ class OrganizationInvitationsController < ApplicationController
     end
 
     def organization_invitation_params
-      params.expect(organization_invitation: [ :email_address, :role_id ])
+      params.expect(organization_invitation: [ :email_address, :role ])
     end
 end

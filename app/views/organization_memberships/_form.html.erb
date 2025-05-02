@@ -7,10 +7,7 @@
 
   <div class="<%= input_group_classes %>">
     <%= form.label :role, class: "#{label_classes}" %>
-
     <%= form.dropdown :role, options: Role.where(scope: Constants::Roles::Scopes::ORGANIZATION).map { |role| [ role.humanize, role.id ]}, selected: organization_membership.role.id %>
-
-
     <% organization_membership.errors.full_messages_for(:role).each do |msg| %>
       <%= form.input_error :role, message: msg %>
     <% end %>

@@ -12,7 +12,7 @@ class OrganizationMembershipsController < ApplicationController
 
   def update
     if @organization_membership.update(role_id: Role.find(organization_membership_params[:role]).id)
-      redirect_to organization_organization_memberships_path(@organization)
+      redirect_to organization_organization_memberships_path(@organization), notice: "Successfully updated #{@user_name}"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -21,7 +21,7 @@ class OrganizationMembershipsController < ApplicationController
   def destroy
     @organization_membership.destroy!
 
-    redirect_to organization_organization_memberships_path(@organization)
+    redirect_to organization_organization_memberships_path(@organization), notice: "Successfully removed #{@user_name}"
   end
 
   private

@@ -1,12 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Invitation" %>
+<% content_for :card_title, "Invitation Received!" %>
+<% content_for :description, "You have been invited to join #{@organization.name}." %>
+<% content_for :back_url, dashboard_path %>
+<% content_for :back_label, "Dashboard" %>
 
-<p>You have been invited to join <%= @organization.name %></p>
+<div class="h-full w-full flex flex-col justify-start items-center pt-8">
+  <%= render "shared/card" do %>
+    <%
+      invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
+      action_url = "#{invitation_path}/handle_invitation_response"
+      button_classes = "flex-1 px-3 py-1 cursor-pointer rounded-lg text-white shadow-md"
+    %>
 
-<div>
-  <%
-    invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
-    action_url = "#{invitation_path}/handle_invitation_response"
-  %>
-  <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true } %>
-  <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false } %>
+    <div class="w-full flex flex-row items-center justify-center gap-3">
+      <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: "#{button_classes} bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400" %>
+      <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: "#{button_classes} bg-red-600 hover:bg-red-700 disabled:bg-red-400" %>
+    </div>
+  <% end %>
 </div>

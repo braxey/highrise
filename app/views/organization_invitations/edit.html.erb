@@ -1,32 +1,30 @@
-<% content_for :title, "Editing organization invitation" %>
+<% content_for :title, "Update Invitation" %>
+<% content_for :card_title, "Update Invitation to #{@organization_invitation.email_address}" %>
+<% content_for :action, "Update Invitation" %>
+<% content_for :back_url, organization_organization_memberships_path(@organization) %>
+<% content_for :back_label, "Members" %>
 
-<h1>Editing organization invitation</h1>
+<div class="h-full w-full flex flex-col justify-start items-center pt-8">
+  <%= render "shared/card" do %>
+    <%= form_with model: [@organization, @organization_invitation], url: organization_organization_invitation_path(@organization, @organization_invitation.token), local: true, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+      <%
+        input_group_classes = "grid gap-2"
+        label_classes = "text-sm font-semibold text-neutral-800"
+        input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+      %>
 
-<%= form_with model: [@organization, @organization_invitation], url: organization_organization_invitation_path(@organization, @organization_invitation.token), local: true do |form| %>
-  <% if @organization_invitation.errors.any? || flash[:alert] %>
-    <div style="color: red;">
-      <h2>Error(s) occurred:</h2>
-      <ul>
-        <% @organization_invitation.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+      <div class="<%= input_group_classes %>">
+        <%= form.label :role, class: "#{label_classes}" %>
+        <%= form.dropdown :role, options: Role.where(scope: Constants::Roles::Scopes::ORGANIZATION).map { |role| [ role.humanize, role.id ]}, selected: @organization_invitation.role.id %>
+        <% @organization_invitation.errors.full_messages_for(:role).each do |msg| %>
+          <%= form.input_error :role, message: msg %>
         <% end %>
-        <% if flash[:alert] %>
-          <li><%= flash[:alert] %></li>
-        <% end %>
-      </ul>
-    </div>
+      </div>
+
+      <div>
+        <%= form.submit content_for(:action), class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
+      </div>
+    <% end %>
   <% end %>
+</div>
 
-  <div>
-    <%= form.label :role_id, "Role" %>
-    <%= form.collection_select :role_id, Role.where(scope: Constants::Roles::Scopes::ORGANIZATION), :id, :name, include_blank: "No role", value: @organization_invitation.role&.name %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
- 
-<%= link_to "Back to Members", organization_organization_memberships_path(@organization) %>
-
-<%= button_to "Destroy this invitation", organization_organization_invitation_path(@organization, @organization_invitation.token), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
