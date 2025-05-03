@@ -16,29 +16,29 @@ class OrganizationInvitationsController < ApplicationController
 
   def create
     email = organization_invitation_params[:email_address]&.strip.downcase
-    invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build
+    @organization_invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build
 
-    invitation.assign_attributes(
+    @organization_invitation.assign_attributes(
       email_address: email,
-      role_id: Role.find(organization_invitation_params[:role]).id,
+      role_id: Role.where(id: organization_invitation_params[:role]).first&.id,
       invited_by: session_user,
       status: "pending",
       accepted_at: nil,
       denied_at: nil,
     )
 
-    if invitation.save
+    if @organization_invitation.save
       redirect_to organization_organization_memberships_path(@organization), notice: "Invitation sent to #{email}"
     else
-      redirect_to organization_organization_memberships_path(@organization), alert: "Failed to send invitation to #{email}: #{invitation.errors.full_messages.join(', ')}"
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    if @organization_invitation.update(role_id: Role.find(organization_invitation_params[:role]).id)
+    if @organization_invitation.update(role_id: Role.where(id: organization_invitation_params[:role]).first&.id)
       redirect_to organization_organization_memberships_path(@organization), notice: "Invitation to #{@organization_invitation.email_address} updated successfully"
     else
-      redirect_to organization_organization_memberships_path(@organization), alert: "Failed to update invitation to #{@organization_invitation.email_address}: #{invitation.errors.full_messages.join(', ')}"
+      render :edit, status: :unprocessable_entity
     end
   end
 
