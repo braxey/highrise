@@ -1,4 +1,10 @@
+<% content_for(:mail_header, "Reset Your Password") %>
+
 <p>
-  You can reset your password within the next 15 minutes on
-  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token) %>.
+  You requested a password reset for your account. You can reset your password by visiting
+  <%= link_to "this page", edit_password_url(@user.password_reset_token), style: "color: #059669; text-decoration: underline;" %>
+  within the next 15 minutes.
+</p>
+<p>
+  If you didn't request this, feel free to ignore this email—your password will remain unchanged.
 </p>
