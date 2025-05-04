@@ -7,7 +7,7 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
     classes = "text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none " +
         "group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
 
-    super(attribute, options.merge(class: "#{classes} #{options[:class]}"))
+    super(attribute, options.merge(class: @template.cn(classes, options[:class])))
   end
 
   %w[text_field email_field password_field].each do |method_name|
@@ -19,7 +19,7 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
                 "disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring " +
                 "focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 " +
                 "dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-      super(attribute, options.merge(class: "#{classes} #{options[:class]}"))
+      super(attribute, options.merge(class: @template.cn(classes, options[:class])))
     end
   end
 
@@ -30,7 +30,7 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
     size = options[:size] || "default"
 
     if variant
-      classes += case variant
+      variant_classes = case variant
       when "default" then " bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
       when "destructive" then " bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40"
       when "outline" then " border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
@@ -39,19 +39,23 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
       when "link" then " text-primary underline-offset-4 hover:underline"
       else ""
       end
+
+      classes = @template.cn(classes, variant_classes)
     end
 
     if size
-      classes += case size
+      size_classes = case size
       when "default" then " h-9 px-4 py-2 has-[>svg]:px-3"
       when "sm" then " h-8 rounded-md px-3 has-[>svg]:px-2.5"
       when "lg" then " h-10 rounded-md px-6 has-[>svg]:px-4"
       when "icon" then " size-9"
       else ""
       end
+
+      classes = @template.cn(classes, size_classes)
     end
 
-    super(attribute, options.merge(class: "#{classes} #{options[:class]}"))
+    super(attribute, options.merge(class: @template.cn(classes, options[:class])))
   end
 
   def dropdown(attribute, options = {})
@@ -59,9 +63,9 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
     menu_classes = "hidden absolute z-10 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg"
     option_classes = "w-full px-3 py-2 text-sm text-left text-neutral-900 hover:bg-emerald-50 hover:text-emerald-600 capitalize transition-colors cursor-pointer"
 
-    button_classes = "#{button_classes} #{options[:button_class]}" if options[:button_class]
-    menu_classes = "#{menu_classes} #{options[:menu_class]}" if options[:menu_class]
-    option_classes = "#{option_classes} #{options[:option_class]}" if options[:option_class]
+    button_classes = @template.cn(button_classes, options[:button_class]) if options[:button_class]
+    menu_classes = @template.cn(menu_classes, options[:menu_class]) if options[:menu_class]
+    option_classes = @template.cn(option_classes, options[:option_class]) if options[:option_class]
 
     options[:include_blank] = false unless options.key?(:include_blank)
     selected_value = object.send(attribute) || options[:default]
@@ -86,6 +90,6 @@ class PhoenixFormBuilder < ActionView::Helpers::FormBuilder
 
   def input_error(attribute, options = {})
     classes = "text-sm text-red-600"
-    tag.p(options[:message], class: [ classes, options[:class] ].compact.join(" "))
+    tag.p(options[:message], class: @template.cn(classes, options[:class]))
   end
 end
