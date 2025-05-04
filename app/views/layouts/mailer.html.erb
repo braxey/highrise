@@ -1,13 +1,94 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= yield(:title) || "Phoenix" %></title>
     <style>
-      /* Email styles need to be inline */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #2d3748;
+        background-color: #f7fafc;
+      }
+      a {
+        color: #059669;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #2d3748;
+      }
+      .content {
+        padding: 20px 0;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #059669;
+        border-radius: 6px;
+        text-decoration: none;
+        text-align: center;
+      }
+      .button:hover {
+        background-color: #047857;
+      }
+      .footer {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #e2e8f0;
+        font-size: 14px;
+        color: #718096;
+      }
+      @media only screen and (max-width: 600px) {
+        .container {
+          padding: 10px;
+        }
+        .header h1 {
+          font-size: 20px;
+        }
+        .button {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
     </style>
   </head>
-
   <body>
-    <%= yield %>
+    <div class="container">
+      <% if content_for?(:mail_header) %>
+        <div class="header">
+          <h1><%= content_for(:mail_header) %></h1>
+        </div>
+      <% end %>
+      <div class="content">
+        <%= yield %>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Time.current.year %> Phoenix. All rights reserved.</p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,5 +1,6 @@
-You've been invited to join <%= @organization.name %>!
+You’re invited to join <%= @organization.name %>.
 
-You can accept or deny the invitation
-<%= link_to "here", organization_organization_invitation_url(@organization, @organization_invitation.token) %>.
-You will need to sign up if you do not already have an account.
+To accept or decline this invitation, visit the link below:
+<%= organization_organization_invitation_url(@organization, @organization_invitation.token) %>
+
+If you don’t have an account yet, you’ll be prompted to sign up.

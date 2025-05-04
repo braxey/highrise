@@ -1,7 +1,8 @@
+<% content_for(:mail_header, "You're Invited to Join #{@organization.name}") %>
+
+<p>You’ve been invited to become a member of <strong><%= @organization.name %></strong>.</p>
 <p>
-  You've been invited to join <%= @organization.name %>!
-  <br/>
-  You can accept or deny the invitation
-  <%= link_to "here", organization_organization_invitation_url(@organization, @organization_invitation.token) %>.
-  You will need to sign up if you do not already have an account.
+  To respond to this invitation, please
+  <%= link_to "click here", organization_organization_invitation_url(@organization, @organization_invitation.token), style: "color: #059669; text-decoration: underline;" %>.
+  If you don’t have an account yet, you’ll be prompted to sign up.
 </p>
