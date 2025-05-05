@@ -43,11 +43,11 @@
 
     <!-- Logo -->
     <%= link_to root_path, class: "flex items-center space-x-2" do %>
-      <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-emerald-600">
+      <div class="flex aspect-square size-8 items-center justify-center rounded-md">
         <%= image_tag "/icon.svg", class: "size-5 stroke-current text-white", alt: "Phoenix Logo" %>
       </div>
-      <div className="ml-1 grid flex-1 text-left text-sm">
-        <span className="mb-0.5 truncate leading-none font-semibold text-neutral-900">Phoenix</span>
+      <div class="ml-1 grid flex-1 text-left text-sm">
+        <span class="mb-0.5 truncate leading-none font-semibold text-neutral-900">Phoenix</span>
       </div>
     <% end %>
 
@@ -87,6 +87,7 @@
               <div class="border-b -mx-1 my-1 h-px"></div>
               <%= link_to "Dashboard", dashboard_path, class: "w-full text-left block px-2 py-1.5 text-sm text-neutral-700 hover:bg-gray-100 cursor-pointer rounded-md" %>
               <%= link_to "Roles", roles_path, class: "w-full text-left block px-2 py-1.5 text-sm text-neutral-700 hover:bg-gray-100 cursor-pointer rounded-md" %>
+              <%= link_to "Settings", settings_profile_path, class: "w-full text-left block px-2 py-1.5 text-sm text-neutral-700 hover:bg-gray-100 cursor-pointer rounded-md" %>
               <div class="border-b -mx-1 my-1 h-px"></div>
               <%= button_to "Sign Out", session_path, method: :delete, class: "w-full text-left block px-2 py-1.5 text-sm text-neutral-700 hover:bg-gray-100 cursor-pointer rounded-md" %>
             </div>
