@@ -11,13 +11,13 @@ Rails.application.routes.draw do
   # Auth.
   get "login", to: "sessions#new", as: :new_session
   resource :session, except: %i[ new ]
+  get "settings/password", to: "passwords#show"
   resources :passwords, param: :token, except: %i[ index show destroy ]
 
   # Registration / Account management.
   get "signup", to: "users#new", as: :new_user
-  resource :users, only: %i[create]
-  get "settings/profile", to: "users#show"
-  get "settings/password", to: "passwords#show"
+  get "settings/profile", to: "users#edit"
+  resources :users, only: %i[ create update ]
 
   # Roles.
   resources :roles, except: :show
