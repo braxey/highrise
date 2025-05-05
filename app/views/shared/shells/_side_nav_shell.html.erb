@@ -11,7 +11,7 @@
     <% end %>
 
     <div class="w-full flex flex-col lg:flex-row lg:space-x-12">
-      <aside class="w-full lg:w-48">
+      <aside class="w-full max-w-xl lg:w-48">
         <nav class="flex flex-col space-y-1">
           <% sidebar_nav_items.each do |item| %>
             <% active = current_page?(item[:href]) %>

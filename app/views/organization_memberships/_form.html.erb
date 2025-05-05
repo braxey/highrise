@@ -1,4 +1,4 @@
-<%= form_with model: [organization_membership.organization, organization_membership], local: true, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+<%= form_with model: [organization_membership.organization, organization_membership], local: true, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6 max-w-xl" do |form| %>
   <%
     input_group_classes = "grid gap-2"
     label_classes = "text-sm font-semibold text-neutral-800"
