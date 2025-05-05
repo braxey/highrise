@@ -21,8 +21,17 @@
     <% end %>
   </div>
 
-  <div>
-    <%= form.submit content_for(:action), class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
+  <div class="flex items-center gap-4">
+    <%= form.submit "Save", class: "cursor-pointer" %>
+    <% if flash[:success].present? %>
+      <p
+        data-controller="flash"
+        data-flash-hide-after-value="2000"
+        class="text-sm text-neutral-600 opacity-100 transition-opacity duration-300"
+      >
+        Saved
+      </p>
+    <% end %>
   </div>
 <% end %>
 

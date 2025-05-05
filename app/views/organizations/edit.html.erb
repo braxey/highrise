@@ -1,15 +1,5 @@
-<% content_for :title, "Edit Organization #{@organization.name}" %>
-<% content_for :action, "Update" %>
-<% content_for :back_url, organization_path(@organization) %>
-<% content_for :back_label, "Back" %>
+<% content_for :title, "Edit #{@organization.name}" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
-  <%= render "shared/card" do %>
-    <%= render "form", organization: @organization %>
-
-    <div class="flex flex-row justify-center items-center mt-4 text-center text-sm text-neutral-700 gap-1">
-      <%= button_to "Delete", @organization, method: :delete, class: "text-red-600 hover:text-red-700 cursor-pointer" %>
-    </div>
-  <% end %>
-</div>
-
+<%= render "organizations/shell", organization: @organization do %>
+  <%= render "form", organization: @organization %>
+<% end %>

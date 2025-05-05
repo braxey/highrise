@@ -37,7 +37,7 @@ class OrganizationsController < ApplicationController
 
   def update
     if @organization.update(organization_params)
-      redirect_to @organization, notice: "Organization #{organization_params[:name]} was successfully updated."
+      redirect_to edit_organization_path(@organization), flash: { success: "Saved" }
     else
       render :edit, status: :unprocessable_entity
     end
