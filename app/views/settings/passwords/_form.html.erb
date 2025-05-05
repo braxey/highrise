@@ -1,0 +1,44 @@
+<%= form_with model: user, url: settings_password_path, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
+  <%
+    input_group_classes = "grid gap-2"
+    label_classes = "text-sm font-semibold text-neutral-800"
+    input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+  %>
+
+  <div class="<%= input_group_classes %>">
+    <%= form.label :current_password, class: "#{label_classes}" %>
+    <%= form.password_field :current_password, required: true, autocomplete: "new-password", placeholder: "Current Password", maxlength: 72, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:current_password).each do |msg| %>
+      <%= form.input_error :current_password, message: msg %>
+    <% end %>
+  </div>
+
+  <div class="<%= input_group_classes %>">
+    <%= form.label :password, class: "#{label_classes}" %>
+    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Password", maxlength: 72, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:password).each do |msg| %>
+      <%= form.input_error :password, message: msg %>
+    <% end %>
+  </div>
+
+  <div class="<%= input_group_classes %>">
+    <%= form.label :password_confirmation, class: "#{label_classes}" %>
+    <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Confirm password", maxlength: 72, class: "#{input_classes}" %>
+    <% user.errors.full_messages_for(:password_confirmation).each do |msg| %>
+      <%= form.input_error :password_confirmation, message: msg %>
+    <% end %>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <%= form.submit "Save", class: "cursor-pointer" %>
+    <% if flash[:success].present? %>
+      <p
+        data-controller="flash"
+        data-flash-hide-after-value="2000"
+        class="text-sm text-neutral-600 opacity-100 transition-opacity duration-300"
+      >
+        Saved
+      </p>
+    <% end %>
+  </div>
+<% end %>
