@@ -1,9 +1,9 @@
-<% content_for :title, "Profile settings" %>
+<% content_for :title, "Profile" %>
 
 <%= render "shared/shells/settings_shell" do %>
   <header class="w-full mb-6">
-    <h3 class="mb-0.5 text-base font-medium">Update password</h3>
-    <p class="text-muted-foreground text-sm">Ensure your account is using a long, random password to stay secure</p>
+    <h3 class="mb-0.5 text-base font-medium">Profile Information</h3>
+    <p class="text-muted-foreground text-sm">Update your name and email address</p>
   </header>
 
   <%= render "form", user: @user %>
