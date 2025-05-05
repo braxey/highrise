@@ -5,8 +5,10 @@ module ApplicationHelper
     TailwindMerge::Merger.new.merge(args.compact.join(" "))
   end
 
-  def button_classes(classes, variant = "default", size = "default")
+  def button_classes(classes = "", variant = "default", size = "default")
     base = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+
+    puts variant
 
     variants = {
       default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",

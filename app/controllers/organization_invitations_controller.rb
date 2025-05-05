@@ -18,6 +18,11 @@ class OrganizationInvitationsController < ApplicationController
     email = organization_invitation_params[:email_address]&.strip.downcase
     @organization_invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build
 
+    if @organization_invitation.persisted? && @organization_invitation.status == "pending"
+      @organization_invitation.errors.add(:email_address, "already has a pending invitation.")
+      return render :new, status: :unprocessable_entity
+    end
+
     @organization_invitation.assign_attributes(
       email_address: email,
       role_id: Role.where(id: organization_invitation_params[:role]).first&.id,
@@ -28,7 +33,7 @@ class OrganizationInvitationsController < ApplicationController
     )
 
     if @organization_invitation.save
-      redirect_to organization_organization_memberships_path(@organization), notice: "Invitation sent to #{email}"
+      redirect_to new_organization_organization_invitation_path(@organization), flash: { success: "Sent" }
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +41,7 @@ class OrganizationInvitationsController < ApplicationController
 
   def update
     if @organization_invitation.update(role_id: Role.where(id: organization_invitation_params[:role]).first&.id)
-      redirect_to organization_organization_memberships_path(@organization), notice: "Invitation to #{@organization_invitation.email_address} updated successfully"
+      redirect_to edit_organization_organization_invitation_path(@organization), flash: { success: "Saved" }
     else
       render :edit, status: :unprocessable_entity
     end

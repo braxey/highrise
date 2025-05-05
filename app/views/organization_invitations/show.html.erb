@@ -9,12 +9,11 @@
     <%
       invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
       action_url = "#{invitation_path}/handle_invitation_response"
-      button_classes = "flex-1 px-3 py-1 cursor-pointer rounded-lg text-white shadow-md"
     %>
 
     <div class="w-full flex flex-row items-center justify-center gap-3">
-      <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: "#{button_classes} bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400" %>
-      <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: "#{button_classes} bg-red-600 hover:bg-red-700 disabled:bg-red-400" %>
+      <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: button_classes("bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400") %>
+      <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: button_classes("", "destructive") %>
     </div>
   <% end %>
 </div>

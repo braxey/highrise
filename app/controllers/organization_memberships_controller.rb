@@ -12,7 +12,7 @@ class OrganizationMembershipsController < ApplicationController
 
   def update
     if @organization_membership.update(role_id: Role.find(organization_membership_params[:role]).id)
-      redirect_to organization_organization_memberships_path(@organization), notice: "Successfully updated #{@user_name}"
+      redirect_to edit_organization_organization_membership_path(@organization), flash: { success: "Saved" }
     else
       render :edit, status: :unprocessable_entity
     end

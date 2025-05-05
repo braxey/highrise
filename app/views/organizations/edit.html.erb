@@ -1,5 +1,10 @@
 <% content_for :title, "Edit #{@organization.name}" %>
 
 <%= render "organizations/shell", organization: @organization do %>
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">Edit Organization</h3>
+    <p class="text-muted-foreground text-sm">Update organization information for <%= @organization.name %></p>
+  </header>
+
   <%= render "form", organization: @organization %>
 <% end %>

@@ -1,36 +1,45 @@
-<% content_for :title, "Invite New Member" %>
-<% content_for :action, "Invite" %>
-<% content_for :back_url, organization_organization_memberships_path(@organization) %>
-<% content_for :back_label, "Members" %>
+<% content_for :title, "Invite Member" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
-  <%= render "shared/card" do %>
-    <%= form_with model: [@organization, @organization_invitation], local: true, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6" do |form| %>
-      <%
-        input_group_classes = "grid gap-2"
-        label_classes = "text-sm font-semibold text-neutral-800"
-        input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
-      %>
+<%= render "organizations/shell", organization: @organization do %>
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">Send Invitation</h3>
+    <p class="text-muted-foreground text-sm">Send an invitation for a new member to join <%= @organization.name %></p>
+  </header>
 
-      <div class="<%= input_group_classes %>">
-        <%= form.label :email_address, class: "#{label_classes}" %>
-        <%= form.email_field :email_address, required: true, class: "#{input_classes}" %>
-        <% @organization_invitation.errors.full_messages_for(:email_address).each do |msg| %>
-          <%= form.input_error :email_address, message: msg %>
-        <% end %>
-      </div>
+  <%= form_with model: [@organization, @organization_invitation], local: true, builder: PhoenixFormBuilder, class: "flex w-full flex-col gap-6 max-w-lg" do |form| %>
+    <%
+      input_group_classes = "grid gap-2"
+      label_classes = "text-sm font-semibold text-neutral-800"
+      input_classes = "rounded-lg border border-neutral-300 bg-white p-3 text-neutral-900 placeholder-neutral-400 transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 focus:outline-none"
+    %>
 
-      <div class="<%= input_group_classes %>">
-        <%= form.label :role, class: "#{label_classes}" %>
-        <%= form.dropdown :role, options: Role.where(scope: Constants::Roles::Scopes::ORGANIZATION).map { |role| [ role.humanize, role.id ]} %>
-        <% @organization_invitation.errors.full_messages_for(:role).each do |msg| %>
-          <%= form.input_error :role, message: msg %>
-        <% end %>
-      </div>
+    <div class="<%= input_group_classes %>">
+      <%= form.label :email_address, class: "#{label_classes}" %>
+      <%= form.email_field :email_address, required: true, class: "#{input_classes}" %>
+      <% @organization_invitation.errors.full_messages_for(:email_address).each do |msg| %>
+        <%= form.input_error :email_address, message: msg %>
+      <% end %>
+    </div>
 
-      <div>
-        <%= form.submit content_for(:action), class: "w-full cursor-pointer rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700 disabled:bg-emerald-400" %>
-      </div>
-    <% end %>
+    <div class="<%= input_group_classes %>">
+      <%= form.label :role, class: "#{label_classes}" %>
+      <%= form.dropdown :role, options: Role.where(scope: Constants::Roles::Scopes::ORGANIZATION).map { |role| [ role.humanize, role.id ]} %>
+      <% @organization_invitation.errors.full_messages_for(:role).each do |msg| %>
+        <%= form.input_error :role, message: msg %>
+      <% end %>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <%= form.submit "Send", class: "cursor-pointer" %>
+      <% if flash[:success].present? %>
+        <p
+          data-controller="flash"
+          data-flash-hide-after-value="2000"
+          class="text-sm text-neutral-600 opacity-100 transition-opacity duration-300"
+        >
+          Sent
+        </p>
+      <% end %>
+    </div>
   <% end %>
-</div>
+<% end %>
