@@ -1,0 +1,19 @@
+<%
+  sidebar_nav_items = [
+    {
+      title: 'Profile',
+      href: settings_profile_path,
+    },
+    {
+      title: 'Password',
+      href: settings_password_path,
+    },
+  ]
+%>
+
+<% content_for(:section_header, "Settings") %>
+<% content_for(:section_subheader, "Manage your profile and account settings") %>
+
+<%= render "shared/shells/side_nav_shell", sidebar_nav_items: sidebar_nav_items do %>
+  <%= yield %>
+<% end %>

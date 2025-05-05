@@ -1,21 +1,14 @@
 <%
-  sidebar_nav_items = [
-    {
-      title: 'Profile',
-      href: '/settings/profile',
-    },
-    {
-      title: 'Password',
-      href: '/settings/password',
-    },
-  ]
+  sidebar_nav_items ||= []
 %>
 
 <div class="w-full px-4 py-6">
+    <% if content_for?(:section_header) %>
     <div class="mb-8 space-y-0.5">
-        <h2 class="text-xl font-semibold tracking-tight">Settings</h2>
-        <p class="text-muted-foreground text-sm">Manage your profile and account settings</p>
+        <h2 class="text-xl font-semibold tracking-tight"><%= content_for(:section_header) %></h2>
+        <p class="text-muted-foreground text-sm"><%= content_for(:section_subheader) %></p>
     </div>
+    <% end %>
 
     <div class="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside class="w-full max-w-xl lg:w-48">
