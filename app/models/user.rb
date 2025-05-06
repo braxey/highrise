@@ -11,12 +11,15 @@ class User < ApplicationRecord
   has_many :organization_memberships, dependent: :destroy
   has_many :organizations, through: :organization_memberships
   has_many :organization_invitations, foreign_key: :invited_by, dependent: :destroy
+  has_one_attached :avatar
 
   validates :email_address, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 },
                             format: { with: URI::MailTo::EMAIL_REGEXP, message: EMAIL_MESSAGE }
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :first_name, length: { in: 2..100 }, format: { with: NAME_REGEX, message: NAME_MESSAGE }
   validates :last_name, length: { in: 2..100 }, format: { with: NAME_REGEX, message: NAME_MESSAGE }
+  validate :acceptable_image_type
+  validate :acceptable_image_size
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
@@ -33,5 +36,17 @@ class User < ApplicationRecord
   private
     def send_welcome_email
       UsersMailer.with(user: self).welcome.deliver_later
+    end
+
+    def acceptable_image_type
+      return unless avatar.attached?
+      return if avatar.content_type.in?(%w[image/png image/jpeg])
+      errors.add(:avatar, "must be a PNG or JPG")
+    end
+
+    def acceptable_image_size
+      return unless avatar.attached?
+      return unless avatar.byte_size > 3.megabyte
+      errors.add(:avatar, "must be less than 3MB")
     end
 end

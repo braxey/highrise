@@ -1,0 +1,15 @@
+<%
+  size ||= 32
+  classes ||= ""
+  fallback_classes ||= ""
+%>
+
+<% if user.avatar.attached? %>
+  <div data-slot="avatar" class="<%= cn("relative flex size-[#{size}px] shrink-0 overflow-hidden rounded-full justify-center items-center", classes) %>">
+    <%= image_tag user.avatar.variant(resize_to_limit: [200, 200]), data: { slot: "avatar-image" }, class: cn("aspect-square size-[#{size}px]", ), alt: "#{user.first_name} #{user.last_name} avatar" %>
+  </div>
+<% else %>
+  <div data-slot="avatar-fallback" class="<%= cn("flex size-[#{size}] items-center justify-center rounded-full bg-neutral-200 text-black", fallback_classes) %>">
+    <%= user.initials %>
+  </div>
+<% end %>
