@@ -1,10 +1,31 @@
 <% content_for :title, "Edit #{@organization.name}" %>
 
 <%= render "organizations/shell", organization: @organization do %>
+  <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+    <% if is_phoenix_admin? %>
+      <%= link_to organizations_path, class: "text-emerald-600 hover:underline" do %>
+        Organizations
+      <% end %>
+      <span class="text-neutral-400">›</span>
+    <% end %>
+
+    <%= link_to organization_path(@organization), class: "text-emerald-600 hover:underline" do %>
+      <%= @organization.name %>
+    <% end %>
+    <span class="text-neutral-400">›</span>
+
+    <span class="font-medium text-neutral-800">Edit</span>
+  </div>
+
   <header class="w-full mb-6">
     <h3 class="mb-0.5 text-base font-medium">Edit Organization</h3>
     <p class="text-muted-foreground text-sm">Update organization information for <%= @organization.name %></p>
   </header>
 
   <%= render "form", organization: @organization %>
+
+  <div class="flex flex-row justify-start items-center text-center text-sm text-neutral-700 gap-1 max-w-lg">
+    Don't need this organization?
+    <%= button_to "Delete", @organization, method: :delete, class: "text-red-600 hover:text-red-700 cursor-pointer" %>
+  </div>
 <% end %>

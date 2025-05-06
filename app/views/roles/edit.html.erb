@@ -1,15 +1,23 @@
 <% content_for :title, "Edit Role" %>
-<% content_for :action, "Update" %>
-<% content_for :back_url, roles_path %>
-<% content_for :back_label, "Roles" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
-  <%= render "shared/card" do %>
-    <%= render "form", role: @role %>
+<%= render "shared/shells/admin_panel_shell" do %>
+  <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+    <%= link_to roles_path, class: "text-emerald-600 hover:underline" do %>
+      Roles
+    <% end %>
+    <span class="text-neutral-400">›</span>
+    <span class="font-medium text-neutral-800">Edit Role</span>
+  </div>
 
-    <div class="flex flex-row justify-center items-center mt-4 text-center text-sm text-neutral-700 gap-1">
-      Don't need this role?
-      <%= button_to "Delete", @role, method: :delete, class: "text-red-600 hover:text-red-700 cursor-pointer" %>
-    </div>
-  <% end %>
-</div>
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">Edit Role</h3>
+    <p class="text-muted-foreground text-sm">Update the selected role</p>
+  </header>
+
+  <%= render "form", role: @role %>
+
+  <div class="flex flex-row justify-start items-center text-center text-sm text-neutral-700 gap-1 max-w-lg">
+    Don't need this role?
+    <%= button_to "Delete", @role, method: :delete, class: "text-red-600 hover:text-red-700 cursor-pointer" %>
+  </div>
+<% end %>

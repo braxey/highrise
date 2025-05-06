@@ -1,10 +1,19 @@
 <% content_for :title, "New Role" %>
-<% content_for :action, "Create" %>
-<% content_for :back_url, roles_path %>
-<% content_for :back_label, "Roles" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
-  <%= render "shared/card" do %>
-    <%= render "form", role: @role %>
-  <% end %>
-</div>
+<%= render "shared/shells/admin_panel_shell" do %>
+  <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+    <%= link_to roles_path, class: "text-emerald-600 hover:underline" do %>
+      Roles
+    <% end %>
+    <span class="text-neutral-400">›</span>
+    <span class="font-medium text-neutral-800">New Role</span>
+  </div>
+
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">New Role</h3>
+    <p class="text-muted-foreground text-sm">Create a new Phoenix role</p>
+  </header>
+
+  <%= render "form", role: @role %>
+<% end %>
+

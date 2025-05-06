@@ -1,63 +1,56 @@
 <% content_for :title, "Organizations" %>
 
-<div class="container mx-auto px-4 py-8">
-  <!-- Notice -->
-  <% if notice.present? %>
-    <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg shadow shadow-green-200">
-      <%= notice %>
-    </div>
-  <% end %>
+<%= render "shared/shells/admin_panel_shell" do %>
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">Organizations</h3>
+    <p class="text-muted-foreground text-sm">See all Phoenix organizations</p>
+  </header>
 
-  <!-- Header -->
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-semibold text-gray-900">Organizations</h1>
-    <%= link_to "New Organization", new_organization_path,
-      class: "inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium shadow hover:bg-emerald-700 transition duration-150" %>
-  </div>
-
-  <!-- Table -->
-  <div class="overflow-x-auto bg-white shadow rounded-lg">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
-        <tr>
-          <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Members</th>
-          <th scope="col" class="px-6 py-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100 text-sm text-gray-800">
-        <% @organizations.each do |organization| %>
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4">
-              <%= organization.name %>
-            </td>
-            <td class="px-6 py-4">
-              <%= organization.users.size %>
-            </td>
-            <td class="px-6 py-4 space-x-2">
-              <%= link_to "Show", organization_path(organization),
-                class: "text-emerald-600 hover:underline" %>
-            </td>
+  <div class="container mx-auto">
+    <!-- Table -->
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
+          <tr>
+            <th scope="col" class="px-6 py-3">Name</th>
+            <th scope="col" class="px-6 py-3">Members</th>
+            <th scope="col" class="px-6 py-3">Actions</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody class="divide-y divide-gray-100 text-sm text-gray-800">
+          <% @organizations.each do |organization| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <%= organization.name %>
+              </td>
+              <td class="px-6 py-4">
+                <%= organization.users.size %>
+              </td>
+              <td class="px-6 py-4 space-x-2">
+                <%= link_to "Show", organization_path(organization),
+                  class: "text-emerald-600 hover:underline" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Pagination -->
-  <div class="mt-6 flex justify-between items-center text-sm text-gray-700">
-    <% if @current_page > 1 %>
-      <%= link_to "← Previous", organizations_path(page: @current_page - 1),
-        class: "text-emerald-600 hover:underline" %>
-    <% else %>
-      <span class="text-gray-400">← Previous</span>
-    <% end %>
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-between items-center text-sm text-gray-700">
+      <% if @current_page > 1 %>
+        <%= link_to "← Previous", organizations_path(page: @current_page - 1),
+          class: "text-emerald-600 hover:underline" %>
+      <% else %>
+        <span class="text-gray-400">← Previous</span>
+      <% end %>
 
-    <% if @current_page != @last_page %>
-      <%= link_to "Next →", organizations_path(page: @current_page + 1),
-        class: "text-emerald-600 hover:underline" %>
-    <% else %>
-      <span class="text-gray-400">Next →</span>
-    <% end %>
+      <% if @current_page != @last_page %>
+        <%= link_to "Next →", organizations_path(page: @current_page + 1),
+          class: "text-emerald-600 hover:underline" %>
+      <% else %>
+        <span class="text-gray-400">Next →</span>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>

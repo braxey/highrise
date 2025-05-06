@@ -1,0 +1,27 @@
+<%
+  sidebar_nav_items = [
+    {
+      title: 'Organizations',
+      href: organizations_path,
+    },
+    {
+      title: 'New Organization',
+      href: new_organization_path,
+    },
+    {
+      title: 'Roles',
+      href: roles_path,
+    },
+    {
+      title: 'New Role',
+      href: new_role_path,
+    }
+  ]
+%>
+
+<% content_for(:section_header, "Admin Panel") %>
+<% content_for(:section_subheader, "Manage users, organizations, and roles") %>
+
+<%= render "shared/shells/side_nav_shell", sidebar_nav_items: sidebar_nav_items do %>
+  <%= yield %>
+<% end %>

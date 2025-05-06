@@ -1,11 +1,18 @@
 <% content_for :title, "New Organization" %>
-<% content_for :action, "Create" %>
-<% content_for :back_url, organizations_path %>
-<% content_for :back_label, "Organizations" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
-  <%= render "shared/card" do %>
-    <%= render "form", organization: @organization %>
-  <% end %>
-</div>
+<%= render "shared/shells/admin_panel_shell" do %>
+  <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+    <%= link_to organizations_path, class: "text-emerald-600 hover:underline" do %>
+      Organizations
+    <% end %>
+    <span class="text-neutral-400">›</span>
+    <span class="font-medium text-neutral-800">New Organization</span>
+  </div>
 
+  <header class="w-full mb-6">
+    <h3 class="mb-0.5 text-base font-medium">New Organization</h3>
+    <p class="text-muted-foreground text-sm">Create a new Phoenix organization</p>
+  </header>
+
+  <%= render "form", organization: @organization %>
+<% end %>

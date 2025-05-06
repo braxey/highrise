@@ -1,8 +1,18 @@
 <% content_for :title, "Edit #{@organization.name}" %>
 
 <%= render "organizations/shell", organization: @organization do %>
-  <div class="w-full container mx-auto px-4">
-    <div class="bg-white rounded-xl shadow-md p-8 mb-10">
+  <% if is_phoenix_admin? %>
+    <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+      <%= link_to organizations_path, class: "text-emerald-600 hover:underline" do %>
+        Organizations
+      <% end %>
+      <span class="text-neutral-400">›</span>
+      <span class="font-medium text-neutral-800"><%= @organization.name %></span>
+    </div>
+  <% end %>
+
+  <div class="w-full container mx-auto">
+    <div class="bg-white shadow-md p-8">
       <h1 class="text-4xl font-bold text-gray-900 mb-6"><%= @organization.name %></h1>
 
       <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 text-sm text-gray-700">

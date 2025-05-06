@@ -24,7 +24,7 @@ class RolesController < ApplicationController
 
   def update
     if @role.update(role_params)
-      redirect_to roles_path, notice: "Role was successfully updated."
+      redirect_to edit_role_path(@role), flash: { success: "Saved" }
     else
       render :edit, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class RolesController < ApplicationController
 
   def destroy
     @role.destroy!
-    redirect_to roles_path, status: :see_other, notice: "Role was successfully deleted."
+    redirect_to roles_path, status: :see_other
   end
 
   private

@@ -2,10 +2,23 @@
 
 <%= render "organizations/shell", organization: @organization do %>
   <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
+    <% if is_phoenix_admin? %>
+      <%= link_to organizations_path, class: "text-emerald-600 hover:underline" do %>
+        Organizations
+      <% end %>
+      <span class="text-neutral-400">›</span>
+    <% end %>
+
+    <%= link_to organization_path(@organization), class: "text-emerald-600 hover:underline" do %>
+      <%= @organization.name %>
+    <% end %>
+    <span class="text-neutral-400">›</span>
+
     <%= link_to organization_organization_memberships_path(@organization), class: "text-emerald-600 hover:underline" do %>
       Members
     <% end %>
     <span class="text-neutral-400">›</span>
+
     <span class="font-medium text-neutral-800">Edit Membership</span>
   </div>
 
