@@ -12,6 +12,8 @@ class OrganizationsController < ApplicationController
 
     @total_organizations = Organization.count
     @last_page = (@total_organizations/@per_page.to_f).ceil
+    @start_number = offset + 1
+    @end_number = [ offset + @per_page, @total_organizations ].min
 
     @organizations = Organization.includes(:users).limit(@per_page).offset(offset)
   end

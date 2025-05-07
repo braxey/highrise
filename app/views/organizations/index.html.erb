@@ -12,21 +12,21 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
           <tr>
-            <th scope="col" class="px-6 py-3">Name</th>
-            <th scope="col" class="px-6 py-3">Members</th>
-            <th scope="col" class="px-6 py-3">Actions</th>
+            <th scope="col" class="px-6 py-3 text-left">Name</th>
+            <th scope="col" class="px-6 py-3 text-center">Members</th>
+            <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 text-sm text-gray-800">
           <% @organizations.each do |organization| %>
             <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4">
+              <td class="px-6 py-4 text-left">
                 <%= organization.name %>
               </td>
-              <td class="px-6 py-4">
+              <td class="px-6 py-4 text-center">
                 <%= organization.users.size %>
               </td>
-              <td class="px-6 py-4 space-x-2">
+              <td class="px-6 py-4 space-x-2 text-right">
                 <%= link_to "Show", organization_path(organization),
                   class: "text-emerald-600 hover:underline" %>
               </td>
@@ -44,6 +44,10 @@
       <% else %>
         <span class="text-gray-400">← Previous</span>
       <% end %>
+
+      <span>
+        <%= "Showing #{@start_number} to #{@end_number} of #{@total_organizations}" %>
+      </span>
 
       <% if @current_page != @last_page %>
         <%= link_to "Next →", organizations_path(page: @current_page + 1),
