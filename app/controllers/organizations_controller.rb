@@ -5,18 +5,31 @@ class OrganizationsController < ApplicationController
 
   def index
     @per_page = 8
-    @search_query = params[:search].to_s || ""
 
     @current_page = params[:page].to_i || 1
     @current_page = 1 if @current_page < 1
     offset = (@current_page - 1) * @per_page
 
-    @total_organizations = Organization.where("name LIKE ?", "%#{@search_query}%").count
+    @search_query = params[:search].to_s || ""
+    @status_query = params[:status].to_s || "all"
+    @status_query = "all" unless [ "all", "active", "inactive" ].include?(@status_query)
+
+    @query = Organization.all
+
+    if @search_query.present?
+      @query = @query.where("name LIKE ?", "%#{@search_query}%")
+    end
+
+    if @status_query != "all"
+      @query = @query.where(is_active: @status_query == "active")
+    end
+
+    @total_organizations = @query.count
     @last_page = (@total_organizations/@per_page.to_f).ceil
-    @start_number = offset + 1
+    @start_number = [ offset + 1, @total_organizations ].min
     @end_number = [ offset + @per_page, @total_organizations ].min
 
-    @organizations = Organization.where("name LIKE ?", "%#{@search_query}%").includes(:users).limit(@per_page).offset(offset)
+    @organizations = @query.includes(:users).limit(@per_page).offset(offset)
   end
 
   def show

@@ -1,0 +1,24 @@
+<%
+  radio_bar_items ||= []
+  value ||= ""
+  data_action ||= nil
+  data_target ||= nil
+%>
+
+<div class="inline-flex grow-0 gap-1 rounded-lg bg-neutral-100 p-1">
+  <% radio_bar_items.each do |item| %>
+    <% active = value == item[:value] %>
+
+    <button
+      class="<%= cn(
+        "flex cursor-pointer items-center rounded-md px-3.5 py-1.5 transition-colors",
+        active ? "bg-white shadow-xs" : "text-neutral-500 hover:bg-neutral-200/60 hover:text-black"
+      ) %>"
+      <%= "data-action=#{data_action}" if data_action.present? %>
+      <%= "data-#{data_target[:controller]}-target=#{data_target[:name]}" if data_target.present? %>
+      <%= "data-value=#{item[:value]}" %>
+    >
+      <span class="text-sm"><%= item[:title] %></span>
+    </button>
+  <% end %>
+</div>

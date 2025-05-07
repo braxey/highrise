@@ -1,0 +1,13 @@
+<%
+  radio_bar_items = [
+    { title: "All", value: "all" },
+    { title: "Active", value: "active" },
+    { title: "Inactive", value: "inactive" },
+  ]
+%>
+
+<%= render "shared/components/ui/radio_bar",
+  radio_bar_items: radio_bar_items,
+  value: @status_query,
+  data_action: "click->organization-query#handleStatusChange",
+  data_target: { controller: "organization-query", name: "status" } %>
