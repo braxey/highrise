@@ -4,18 +4,19 @@ class OrganizationsController < ApplicationController
   require_authorization -> { authorized_to_manage_organization(@organization) }, only: %i[ show edit update destroy ]
 
   def index
-    @per_page = 10
+    @per_page = 8
+    @search_query = params[:search].to_s || ""
 
     @current_page = params[:page].to_i || 1
     @current_page = 1 if @current_page < 1
     offset = (@current_page - 1) * @per_page
 
-    @total_organizations = Organization.count
+    @total_organizations = Organization.where("name LIKE ?", "%#{@search_query}%").count
     @last_page = (@total_organizations/@per_page.to_f).ceil
     @start_number = offset + 1
     @end_number = [ offset + @per_page, @total_organizations ].min
 
-    @organizations = Organization.includes(:users).limit(@per_page).offset(offset)
+    @organizations = Organization.where("name LIKE ?", "%#{@search_query}%").includes(:users).limit(@per_page).offset(offset)
   end
 
   def show
