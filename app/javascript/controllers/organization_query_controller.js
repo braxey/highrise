@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["input", "status"]
   static values = {
-    status: String
+    status: String,
+    currentPage: Number,
   }
 
   connect() {
@@ -36,7 +37,7 @@ export default class extends Controller {
 
   handleStatusChange(event) {
     const selectedStatus = event.currentTarget.getAttribute("data-value")
-    
+
     if (selectedStatus === this.status) {
       return
     }
@@ -45,6 +46,22 @@ export default class extends Controller {
 
     url.searchParams.set("status", selectedStatus)
     url.searchParams.set("page", "1")
+
+    window.location = url.toString()
+  }
+
+  handlePreviousButton() {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set("page", String(this.currentPageValue - 1))
+
+    window.location = url.toString()
+  }
+
+  handleNextButton() {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set("page", String(this.currentPageValue + 1))
 
     window.location = url.toString()
   }
