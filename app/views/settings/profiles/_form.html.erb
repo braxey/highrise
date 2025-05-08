@@ -7,14 +7,22 @@
 
   <div class="grid gap-2">
     <%= form.label :avatar, label: "Profile Picture", class: "text-sm font-semibold text-neutral-800" %>
-    <div class="flex flex-row items-center gap-4">
-      <%= render "shared/components/avatar", user: @user, classes: "size-10", fallback_classes: "size-10" %>
-      <%= form.file_field :avatar, accept: "image/png,image/jpeg", class: "flex-1 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 cursor-pointer" %>
+
+    <div class="flex items-center gap-4" data-controller="avatar-preview">
+      <div data-avatar-preview-target="wrapper">
+        <%= render "shared/components/avatar", user: @user, classes: "size-10", fallback_classes: "size-10" %>
+      </div>
+
+      <%= form.file_field :avatar,
+        accept: "image/png,image/jpeg",
+        class: "flex-1 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 cursor-pointer",
+        data: { action: "avatar-preview#update", avatar_preview_target: "input" } %>
     </div>
+
     <% @user.errors.full_messages_for(:avatar).each do |msg| %>
       <p class="text-sm text-red-600"><%= msg %></p>
     <% end %>
-  </div>
+</div>
 
   <div class="<%= input_group_classes %>">
     <%= form.label :first_name, class: "#{label_classes}" %>
