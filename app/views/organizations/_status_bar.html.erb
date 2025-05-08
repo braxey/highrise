@@ -9,5 +9,5 @@
 <%= render "shared/components/ui/radio_bar",
   radio_bar_items: radio_bar_items,
   value: @status_query,
-  data_action: "click->organization-query#handleStatusChange",
-  data_target: { controller: "organization-query", name: "status" } %>
+  data_action: "click->organizations--index#handleStatusChange",
+  data_target: { controller: "organizations--index", name: "status" } %>

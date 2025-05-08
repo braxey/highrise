@@ -8,9 +8,9 @@
 
   <div
     class="container mx-auto w-full"
-    data-controller="organization-query"
-    data-organization-query-current-page-value="<%= @current_page %>"
-    data-organization-query-status-value="<%= @status_query %>"
+    data-controller="organizations--index"
+    data-organizations--index-current-page-value="<%= @current_page %>"
+    data-organizations--index-status-value="<%= @status_query %>"
   >
     <%= render "index_query" %>
 
@@ -47,7 +47,7 @@
     <div class="mt-6 flex justify-between items-center text-sm text-gray-700">
       <% if @current_page > 1 %>
         <span class="text-emerald-600 cursor-pointer hover:underline"
-          data-action="click->organization-query#handlePreviousButton"
+          data-action="click->organizations--index#handlePreviousButton"
         >← Previous</span>
       <% else %>
         <span class="text-gray-400">← Previous</span>
@@ -59,7 +59,7 @@
 
       <% if @current_page != @last_page %>
         <span class="text-emerald-600 cursor-pointer hover:underline"
-          data-action="click->organization-query#handleNextButton"
+          data-action="click->organizations--index#handleNextButton"
         >Next →</span>
       <% else %>
         <span class="text-gray-400">Next →</span>
