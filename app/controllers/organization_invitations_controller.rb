@@ -4,6 +4,29 @@ class OrganizationInvitationsController < ApplicationController
   before_action :only_allow_invited, only: %i[ show handle_invitation_response ]
   before_action :only_for_pending_invites, only: %i[ show handle_invitation_response ]
 
+  def index
+    @per_page = 8
+
+    @current_page = params[:page].to_i || 1
+    @current_page = 1 if @current_page < 1
+    offset = (@current_page - 1) * @per_page
+
+    @search_query = params[:search].to_s || ""
+
+    @query = @organization.organization_invitations.pending
+
+    if @search_query.present?
+      @query = @query.where("email_address LIKE ?", "%#{@search_query}%")
+    end
+
+    @total_invitations = @query.count
+    @last_page = (@total_invitations/@per_page.to_f).ceil
+    @start_number = [ offset + 1, @total_invitations ].min
+    @end_number = [ offset + @per_page, @total_invitations ].min
+
+    @organization_invitations = @query.includes(:role).limit(@per_page).offset(offset)
+  end
+
   def new
     @organization_invitation = @organization.organization_invitations.build
   end
@@ -50,7 +73,7 @@ class OrganizationInvitationsController < ApplicationController
   def destroy
     email = @organization_invitation.email_address
     @organization_invitation.destroy!
-    redirect_to organization_organization_memberships_path(@organization), status: :see_other, notice: "Invitation to #{email} revoked successfully"
+    redirect_to organization_organization_invitations_path(@organization), status: :see_other, notice: "Invitation to #{email} revoked successfully"
   end
 
   def handle_invitation_response

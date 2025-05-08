@@ -3,8 +3,28 @@ class OrganizationMembershipsController < ApplicationController
   before_action :set_organization_membership, only: %i[ edit update destroy ]
 
   def index
-    @organization_memberships = @organization.organization_memberships.includes(:user, :role)
-    @invitations = @organization.organization_invitations.pending.includes(:role)
+    @per_page = 8
+
+    @current_page = params[:page].to_i || 1
+    @current_page = 1 if @current_page < 1
+    offset = (@current_page - 1) * @per_page
+
+    @search_query = params[:search].to_s || ""
+
+    @query = @organization.organization_memberships.all
+
+    if @search_query.present?
+      @query = @query
+        .joins(:user)
+        .where("users.email_address LIKE ?", "%#{@search_query}%")
+    end
+
+    @total_memberships = @query.count
+    @last_page = (@total_memberships/@per_page.to_f).ceil
+    @start_number = [ offset + 1, @total_memberships ].min
+    @end_number = [ offset + @per_page, @total_memberships ].min
+
+    @organization_memberships = @query.includes(:user, :role).limit(@per_page).offset(offset)
   end
 
   def edit

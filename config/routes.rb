@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :organizations do
     # Manage users within organizations.
     resources :organization_memberships, only: %i[ index edit update destroy ]
-    resources :organization_invitations, param: :token, except: %i[ index ] do
+    resources :organization_invitations, param: :token do
       member do
         patch :handle_invitation_response
       end

@@ -1,4 +1,4 @@
-<% content_for :title, "Members of #{@organization.name}" %>
+<% content_for :title, "Pending Invitations" %>
 
 <%= render "organizations/shell", organization: @organization do %>
   <div class="w-full flex justify-start mb-6 items-center space-x-1 text-sm text-neutral-600">
@@ -14,23 +14,23 @@
     <% end %>
     <span class="text-neutral-400">›</span>
 
-    <span class="font-medium text-neutral-800">Members</span>
+    <span class="font-medium text-neutral-800">Invitations</span>
   </div>
 
   <header class="w-full mb-6">
-    <h3 class="mb-0.5 text-base font-medium">Members</h3>
-    <p class="text-muted-foreground text-sm">Manage the members of <%= @organization.name %></p>
+    <h3 class="mb-0.5 text-base font-medium">Invitations</h3>
+    <p class="text-muted-foreground text-sm">Manage the pending invitations to <%= @organization.name %></p>
   </header>
 
   <div
     class="container mx-auto w-full"
-    data-controller="organizations--memberships-index"
-    data-organizations--memberships-index-current-page-value="<%= @current_page %>"
+    data-controller="organizations--invitations-index"
+    data-organizations--invitations-index-current-page-value="<%= @current_page %>"
   >
     <%= render "index_query" %>
 
-    <!-- Members Table -->
-    <% if @organization_memberships.any? %>
+    <!-- Invitations Table -->
+    <% if @organization_invitations.any? %>
       <div class="overflow-x-auto bg-white shadow rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50 text-left text-sm font-semibold text-gray-700">
@@ -41,16 +41,16 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100 text-sm text-gray-800">
-            <% @organization_memberships.each do |membership| %>
+            <% @organization_invitations.each do |invitation| %>
               <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4 text-left"><%= membership.user.email_address %></td>
-                <td class="px-6 py-4 text-center"><%= membership.role&.name || "None" %></td>
+                <td class="px-6 py-4 text-left"><%= invitation.email_address %></td>
+                <td class="px-6 py-4 text-center"><%= invitation.role&.name || "None" %></td>
                 <td class="px-6 py-4 text-right">
                   <div class="flex flex-row items-center justify-end gap-2">
-                    <%= link_to "Edit", edit_organization_organization_membership_path(@organization, membership),
-                        class: "text-emerald-600 hover:underline" %>
+                    <%= link_to "Edit", edit_organization_organization_invitation_path(@organization, invitation.token),
+                      class: "text-emerald-600 hover:underline" %>
 
-                    <%= link_to "Remove", organization_organization_membership_path(@organization, membership), class: "text-red-600 hover:underline", method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+                    <%= link_to "Revoke", organization_organization_invitation_path(@organization, invitation.token), class: "text-red-600 hover:underline", method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
                   </div>
                 </td>
               </tr>
@@ -63,19 +63,19 @@
       <div class="mt-6 flex justify-between items-center text-sm text-gray-700">
         <% if @current_page > 1 %>
           <span class="text-emerald-600 cursor-pointer hover:underline"
-            data-action="click->organizations--memberships-index#handlePreviousButton"
+            data-action="click->organizations--invitations-index#handlePreviousButton"
           >← Previous</span>
         <% else %>
           <span class="text-gray-400">← Previous</span>
         <% end %>
 
         <span>
-          <%= "Showing #{@start_number} to #{@end_number} of #{@total_memberships}" %>
+          <%= "Showing #{@start_number} to #{@end_number} of #{@total_invitations}" %>
         </span>
 
         <% if @current_page != @last_page %>
           <span class="text-emerald-600 cursor-pointer hover:underline"
-            data-action="click->organizations--memberships-index#handleNextButton"
+            data-action="click->organizations--invitations-index#handleNextButton"
           >Next →</span>
         <% else %>
           <span class="text-gray-400">Next →</span>
