@@ -60,6 +60,12 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+    unless @organization.name == params[:delete_name]
+      flash[:delete_error] = "Names did not match"
+      flash[:open_modal] = true
+      return render :edit, status: :unprocessable_entity
+    end
+
     name = @organization.name
     @organization.destroy!
     redirect_to organizations_path, status: :see_other, notice: "Organization #{name} was successfully deleted."
