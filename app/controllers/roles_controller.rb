@@ -35,6 +35,20 @@ class RolesController < ApplicationController
     redirect_to roles_path, status: :see_other
   end
 
+  def destroy
+    unless "#{@role.scope}/#{@role.name}" == params[:delete_role]
+      flash[:delete_error] = "Roles did not match"
+      flash[:open_modal] = true
+      return render :edit, status: :unprocessable_entity
+    end
+
+    scope = @role.scope
+    name = @role.name
+
+    @role.destroy!
+    redirect_to roles_path, status: :see_other, notice: "Role #{scope}/#{name} was successfully deleted."
+  end
+
   private
     def set_role
       @role = Role.find(params.expect(:id))

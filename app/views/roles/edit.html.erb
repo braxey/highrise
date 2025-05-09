@@ -16,8 +16,5 @@
 
   <%= render "form", role: @role %>
 
-  <div class="flex flex-row justify-start items-center text-center text-sm text-neutral-700 gap-1 max-w-lg">
-    Don't need this role?
-    <%= button_to "Delete", @role, method: :delete, class: "text-red-600 hover:text-red-700 cursor-pointer" %>
-  </div>
+  <%= render "roles/delete_role", role: @role %>
 <% end %>
