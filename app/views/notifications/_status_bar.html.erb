@@ -1,0 +1,13 @@
+<%
+  radio_bar_items = [
+    { title: "All", value: "all" },
+    { title: "Unread", value: "unread" },
+    { title: "Read", value: "read" },
+  ]
+%>
+
+<%= render "shared/components/ui/radio_bar",
+  radio_bar_items: radio_bar_items,
+  value: @status_query,
+  data_action: "click->notifications#handleStatusChange",
+  data_target: { controller: "notifications", name: "status" } %>

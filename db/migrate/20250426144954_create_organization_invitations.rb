@@ -11,7 +11,7 @@ class CreateOrganizationInvitations < ActiveRecord::Migration[8.0]
       t.references :invited_by, foreign_key: { to_table: :users }, null: false
       t.timestamps
     end
+
     add_index :organization_invitations, :token, unique: true
-    add_index :organization_invitations, [ :organization_id, :email_address ], unique: true
   end
 end

@@ -25,6 +25,10 @@ class User < ApplicationRecord
 
   after_create_commit :send_welcome_email
 
+  def notifications
+    Notification.where(email_address: email_address)
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end

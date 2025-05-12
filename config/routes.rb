@@ -18,9 +18,11 @@ Rails.application.routes.draw do
   resource :users, only: %i[ create ]
 
   namespace :settings do
-    resource :profile, only: %i[show update destroy]
-    resource :password, only: %i[show update]
+    resource :profile, only: %i[ show update destroy ]
+    resource :password, only: %i[ show update ]
   end
+
+  resources :notifications, only: :index
 
   # Roles.
   resources :roles, except: :show

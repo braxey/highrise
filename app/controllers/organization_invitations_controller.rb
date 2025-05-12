@@ -32,6 +32,7 @@ class OrganizationInvitationsController < ApplicationController
   end
 
   def show
+    @organization_invitation.notification.update(read: true)
   end
 
   def edit
@@ -39,9 +40,9 @@ class OrganizationInvitationsController < ApplicationController
 
   def create
     email = organization_invitation_params[:email_address]&.strip.downcase
-    @organization_invitation = @organization.organization_invitations.find_by(email_address: email) || @organization.organization_invitations.build
+    @organization_invitation = @organization.organization_invitations.pending.find_by(email_address: email) || @organization.organization_invitations.build
 
-    if @organization_invitation.persisted? && @organization_invitation.status == "pending"
+    if @organization_invitation.persisted?
       @organization_invitation.errors.add(:email_address, "already has a pending invitation.")
       return render :new, status: :unprocessable_entity
     end
@@ -56,6 +57,12 @@ class OrganizationInvitationsController < ApplicationController
     )
 
     if @organization_invitation.save
+      Notification.create!(
+        email_address: email,
+        notifiable: @organization_invitation,
+        message: "You're invited to join #{@organization.name}. Click here to respond to the invite.",
+      )
+
       redirect_to new_organization_organization_invitation_path(@organization), flash: { success: "Sent" }
     else
       render :new, status: :unprocessable_entity
@@ -72,17 +79,20 @@ class OrganizationInvitationsController < ApplicationController
 
   def destroy
     email = @organization_invitation.email_address
+    @organization_invitation.notification.destroy!
     @organization_invitation.destroy!
     redirect_to organization_organization_invitations_path(@organization), status: :see_other, notice: "Invitation to #{email} revoked successfully"
   end
 
   def handle_invitation_response
     if params[:invite_accepted] == "true"
+      @organization_invitation.update!(status: "accepted", accepted_at: Time.current)
+
       @organization.organization_memberships.create!(
         user: session_user,
         role: @organization_invitation.role
       )
-      @organization_invitation.update!(status: "accepted", accepted_at: Time.current)
+
       redirect_to organization_path(@organization), notice: "Invitation accepted. You are now a member of #{@organization.name}."
     else
       @organization_invitation.update!(status: "denied", denied_at: Time.current)
@@ -96,7 +106,7 @@ class OrganizationInvitationsController < ApplicationController
     end
 
     def set_organization_invitation
-      @organization_invitation = @organization.organization_invitations.find_by!(token: params[:token])
+      @organization_invitation = @organization.organization_invitations.pending.find_by!(token: params[:token])
     end
 
     def only_allow_invited

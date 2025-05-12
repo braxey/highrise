@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_10_121345) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.string "message", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_notifications_on_email_address"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["read"], name: "index_notifications_on_read"
+  end
+
   create_table "organization_invitations", force: :cascade do |t|
     t.integer "organization_id", null: false
     t.integer "role_id"
@@ -51,7 +64,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_144954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invited_by_id"], name: "index_organization_invitations_on_invited_by_id"
-    t.index ["organization_id", "email_address"], name: "idx_on_organization_id_email_address_f8fe4b828f", unique: true
     t.index ["organization_id"], name: "index_organization_invitations_on_organization_id"
     t.index ["role_id"], name: "index_organization_invitations_on_role_id"
     t.index ["token"], name: "index_organization_invitations_on_token", unique: true

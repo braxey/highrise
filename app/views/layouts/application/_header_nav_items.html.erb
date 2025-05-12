@@ -9,6 +9,7 @@
     ].include?(request.path)
 
     nav_items = [{ title: "Dashboard", href: dashboard_path, active: request.path == dashboard_path }]
+
     if is_phoenix_admin?
       nav_items.push({
         title: "Admin Panel",
