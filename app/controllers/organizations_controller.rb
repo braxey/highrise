@@ -45,7 +45,7 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
     if @organization.save
-      redirect_to organization_path(@organization), notice: "Organization #{organization_params[:name]} was successfully created."
+      redirect_to organization_path(@organization)
     else
       render :new, status: :unprocessable_entity
     end

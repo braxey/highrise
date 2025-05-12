@@ -1,19 +1,37 @@
 <% content_for :title, "Invitation" %>
-<% content_for :card_title, "Invitation Received!" %>
-<% content_for :description, "You have been invited to join #{@organization.name}." %>
-<% content_for :back_url, dashboard_path %>
-<% content_for :back_label, "Dashboard" %>
+<% content_for :back_url, notifications_path %>
+<% content_for :back_label, "Notifications" %>
 
-<div class="h-full w-full flex flex-col justify-start items-center pt-8">
+<% if @organization_invitation.status_is_pending? %>
+  <% content_for :card_title, "Invitation Received!" %>
+  <% content_for :description, "You have been invited to join #{@organization.name}." %>
+<% else %>
+  <% content_for :card_title, "Whoops!" %>
+<% end %>
+
+<div
+  class="h-full w-full flex flex-col justify-start items-center pt-8"
+  data-controller="notifications--mark-as-read"
+  data-notifications--mark-as-read-url-value="<%= mark_as_read_notification_path(@organization_invitation.notification) %>"
+>
   <%= render "shared/card" do %>
-    <%
-      invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
-      action_url = "#{invitation_path}/handle_invitation_response"
-    %>
+    <% if @organization_invitation.status_is_pending? %>
+      <%
+        invitation_path = organization_organization_invitation_path(@organization, @organization_invitation.token)
+        action_url = "#{invitation_path}/handle_invitation_response"
+      %>
 
-    <div class="w-full flex flex-row items-center justify-center gap-3">
-      <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: button_classes("bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400") %>
-      <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: button_classes("", "destructive") %>
-    </div>
+      <div class="w-full flex flex-row items-center justify-center gap-3">
+        <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: button_classes("bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400") %>
+        <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: button_classes("", "destructive") %>
+      </div>
+
+    <% else %>
+
+      <div class="w-full text-center">
+        This invitation is no longer valid.
+      </div>
+
+    <% end %>
   <% end %>
 </div>

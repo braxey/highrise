@@ -41,7 +41,7 @@ class OrganizationMembershipsController < ApplicationController
   def destroy
     @organization_membership.destroy!
 
-    redirect_to organization_organization_memberships_path(@organization), notice: "Successfully removed #{@user_name}"
+    redirect_to organization_organization_memberships_path(@organization)
   end
 
   private

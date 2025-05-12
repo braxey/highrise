@@ -2,7 +2,7 @@ class OrganizationInvitationsController < ApplicationController
   before_action :set_organization
   before_action :set_organization_invitation, only: %i[ show edit update destroy handle_invitation_response ]
   before_action :only_allow_invited, only: %i[ show handle_invitation_response ]
-  before_action :only_for_pending_invites, only: %i[ show handle_invitation_response ]
+  before_action :only_for_pending_invites, only: %i[ edit update destroy handle_invitation_response ]
 
   def index
     @per_page = 8
@@ -32,7 +32,9 @@ class OrganizationInvitationsController < ApplicationController
   end
 
   def show
-    @organization_invitation.notification.update(read: true)
+    if not prefetching?
+      @organization_invitation.notification.update(read: true)
+    end
   end
 
   def edit
@@ -78,10 +80,9 @@ class OrganizationInvitationsController < ApplicationController
   end
 
   def destroy
-    email = @organization_invitation.email_address
     @organization_invitation.notification.destroy!
     @organization_invitation.destroy!
-    redirect_to organization_organization_invitations_path(@organization), status: :see_other, notice: "Invitation to #{email} revoked successfully"
+    redirect_to organization_organization_invitations_path(@organization), status: :see_other
   end
 
   def handle_invitation_response
@@ -93,10 +94,10 @@ class OrganizationInvitationsController < ApplicationController
         role: @organization_invitation.role
       )
 
-      redirect_to organization_path(@organization), notice: "Invitation accepted. You are now a member of #{@organization.name}."
+      redirect_to organization_path(@organization)
     else
       @organization_invitation.update!(status: "denied", denied_at: Time.current)
-      redirect_to dashboard_path, notice: "Invitation denied."
+      redirect_to dashboard_path
     end
   end
 
@@ -106,19 +107,18 @@ class OrganizationInvitationsController < ApplicationController
     end
 
     def set_organization_invitation
-      @organization_invitation = @organization.organization_invitations.pending.find_by!(token: params[:token])
+      @organization_invitation = @organization.organization_invitations.find_by!(token: params[:token])
     end
 
     def only_allow_invited
       unless session_user&.email_address == @organization_invitation.email_address
-        redirect_to root_path, alert: "You are not authorized to view this invitation"
+        redirect_to root_path
       end
     end
 
     def only_for_pending_invites
-      puts @organization_invitation.status
       unless @organization_invitation.status == "pending"
-        redirect_to root_path, alert: "This invitation is no longer valid"
+        redirect_to root_path
       end
     end
 

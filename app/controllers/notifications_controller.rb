@@ -26,6 +26,13 @@ class NotificationsController < ApplicationController
     # @end_number = [ offset + @per_page, @total_notifications ].min
 
     # @notifications = @query.includes(:notifiable).limit(@per_page).offset(offset)
-    @notifications = @query.includes(:notifiable)
+    @notifications = @query.includes(:notifiable).order(created_at: :desc)
+  end
+
+  def mark_as_read
+    @notification = Notification.where(id: params[:id], email_address: session_user.email_address).first
+    if @notification
+      @notification.update(read: true)
+    end
   end
 end

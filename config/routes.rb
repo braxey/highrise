@@ -22,7 +22,11 @@ Rails.application.routes.draw do
     resource :password, only: %i[ show update ]
   end
 
-  resources :notifications, only: :index
+  resources :notifications, only: :index do
+    member do
+      patch :mark_as_read
+    end
+  end
 
   # Roles.
   resources :roles, except: :show

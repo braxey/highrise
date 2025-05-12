@@ -16,7 +16,7 @@ class RolesController < ApplicationController
   def create
     @role = Role.new(role_params)
     if @role.save
-      redirect_to roles_path, notice: "Role was successfully created."
+      redirect_to roles_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,11 +42,8 @@ class RolesController < ApplicationController
       return render :edit, status: :unprocessable_entity
     end
 
-    scope = @role.scope
-    name = @role.name
-
     @role.destroy!
-    redirect_to roles_path, status: :see_other, notice: "Role #{scope}/#{name} was successfully deleted."
+    redirect_to roles_path, status: :see_other
   end
 
   private

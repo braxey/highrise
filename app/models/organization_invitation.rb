@@ -23,13 +23,13 @@ class OrganizationInvitation < ApplicationRecord
     "/organizations/#{organization_id}/organization_invitations/#{token}"
   end
 
+  def status_is_pending?
+    status == "pending"
+  end
+
   private
     def send_invitation
       OrganizationInvitationsMailer.with(organization_invitation: self).notify_invited.deliver_later
-    end
-
-    def status_is_pending?
-      status == "pending"
     end
 
     def only_one_pending_invite_per_email_per_org

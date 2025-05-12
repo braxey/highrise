@@ -2,5 +2,5 @@
   classes: "h-9 w-60 rounded-md border-neutral-200 transition-colors focus:border-green-500 focus:outline-none [&:focus]:border-green-500",
   placeholder: "Search...",
   value: @search_query || "",
-  data_action: "input->notifications#handleInputChange",
-  data_target: { controller: "notifications", name: "input" } %>
+  data_action: "input->notifications--index#handleInputChange",
+  data_target: { controller: "notifications--index", name: "input" } %>
