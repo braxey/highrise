@@ -3,10 +3,10 @@
 <% content_for :back_label, "Notifications" %>
 
 <% if @organization_invitation.status_is_pending? %>
-  <% content_for :card_title, "Invitation Received!" %>
-  <% content_for :description, "You have been invited to join #{@organization.name}." %>
+  <% content_for :card_title, "Invitation Received" %>
+  <% content_for :description, "You've been invited to join #{@organization.name}" %>
 <% else %>
-  <% content_for :card_title, "Whoops!" %>
+  <% content_for :card_title, "No Action Required" %>
 <% end %>
 
 <div
@@ -22,14 +22,20 @@
       %>
 
       <div class="w-full flex flex-row items-center justify-center gap-3">
-        <%= button_to "Accept", action_url, method: :patch, params: { invite_accepted: true }, class: button_classes("bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400") %>
-        <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: button_classes("", "destructive") %>
+        <%= button_to "Join organization", action_url, method: :patch, params: { invite_accepted: true }, class: button_classes("bg-emerald-600 cursor-pointer hover:bg-emerald-700 disabled:bg-emerald-400") %>
+        <%= button_to "Deny", action_url, method: :patch, params: { invite_accepted: false }, class: button_classes("cursor-pointer", "link") %>
       </div>
 
-    <% else %>
+    <% elsif @organization_invitation.status == "accepted" %>
 
       <div class="w-full text-center">
-        This invitation is no longer valid.
+        You've already <span class="text-emerald-600">accepted</span> this invitation.
+      </div>
+
+    <% elsif @organization_invitation.status == "denied" %>
+
+      <div class="w-full text-center">
+        You've already <span class="text-red-600">denied</span> this invitation.
       </div>
 
     <% end %>
