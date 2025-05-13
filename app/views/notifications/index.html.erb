@@ -50,4 +50,27 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Pagination -->
+  <div class="mt-6 flex justify-between items-center text-sm text-gray-700">
+    <% if @current_page > 1 %>
+      <span class="text-emerald-600 cursor-pointer hover:underline"
+        data-action="click->notifications--index#handlePreviousButton"
+      >← Previous</span>
+    <% else %>
+      <span class="text-gray-400">← Previous</span>
+    <% end %>
+
+    <span>
+      <%= "Showing #{@start_number} to #{@end_number} of #{@total_notifications}" %>
+    </span>
+
+    <% if @current_page != @last_page && @last_page != 0 %>
+      <span class="text-emerald-600 cursor-pointer hover:underline"
+        data-action="click->notifications--index#handleNextButton"
+      >Next →</span>
+    <% else %>
+      <span class="text-gray-400">Next →</span>
+    <% end %>
+  </div>
 </div>

@@ -73,7 +73,7 @@
           <%= "Showing #{@start_number} to #{@end_number} of #{@total_invitations}" %>
         </span>
 
-        <% if @current_page != @last_page %>
+        <% if @current_page != @last_page && @last_page != 0 %>
           <span class="text-emerald-600 cursor-pointer hover:underline"
             data-action="click->organizations--invitations-index#handleNextButton"
           >Next →</span>

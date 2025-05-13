@@ -29,6 +29,7 @@ export default class extends Controller {
       const url = new URL(window.location.href)
 
       url.searchParams.set("search", value)
+      url.searchParams.set("page", "1")
 
       window.location = url.toString()
     }, 500)
@@ -44,6 +45,23 @@ export default class extends Controller {
     const url = new URL(window.location.href)
 
     url.searchParams.set("status", selectedStatus)
+    url.searchParams.set("page", "1")
+
+    window.location = url.toString()
+  }
+
+  handlePreviousButton() {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set("page", String(this.currentPageValue - 1))
+
+    window.location = url.toString()
+  }
+
+  handleNextButton() {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set("page", String(this.currentPageValue + 1))
 
     window.location = url.toString()
   }
