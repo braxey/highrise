@@ -1,9 +1,20 @@
 <% content_for :title, "Roles" %>
 
 <%= render "shared/shells/admin_panel_shell" do %>
-  <header class="w-full mb-6">
-    <h3 class="mb-0.5 text-base font-medium">Roles</h3>
-    <p class="text-muted-foreground text-sm">See all Phoenix roles</p>
+  <header class="flex flex-row justify-start items-center gap-4 w-full mb-6">
+    <div>
+      <%= link_to new_role_path do %>
+        <div class="flex justify-center items-center size-6 bg-black rounded-full hover:bg-gray-800 transition-all duration-200 ease-in-out">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white text-bold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <h3 class="mb-0.5 text-base font-medium">Roles</h3>
+      <p class="text-muted-foreground text-sm">See all Phoenix roles</p>
+    </div>
   </header>
 
   <div class="container mx-auto">

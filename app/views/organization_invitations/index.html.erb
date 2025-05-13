@@ -17,9 +17,20 @@
     <span class="font-medium text-neutral-800">Invitations</span>
   </div>
 
-  <header class="w-full mb-6">
-    <h3 class="mb-0.5 text-base font-medium">Invitations</h3>
-    <p class="text-muted-foreground text-sm">Manage the pending invitations to <%= @organization.name %></p>
+  <header class="flex flex-row justify-start items-center gap-4 w-full mb-6">
+    <div>
+      <%= link_to new_organization_organization_invitation_path(@organization) do %>
+        <div class="flex justify-center items-center size-6 bg-black rounded-full hover:bg-gray-800 transition-all duration-200 ease-in-out">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white text-bold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <h3 class="mb-0.5 text-base font-medium">Invitations</h3>
+      <p class="text-muted-foreground text-sm">Manage the pending invitations to <%= @organization.name %></p>
+    </div>
   </header>
 
   <div
