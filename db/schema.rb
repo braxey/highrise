@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_10_121345) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_13_035523) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -88,12 +88,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_121345) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.string "scope", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "scope"], name: "index_roles_on_name_and_scope", unique: true
+  end
+
+  create_table "roles_permissions", force: :cascade do |t|
+    t.integer "role_id", null: false
+    t.integer "permission_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permission_id"], name: "index_roles_permissions_on_permission_id"
+    t.index ["role_id", "permission_id"], name: "index_roles_permissions_on_role_id_and_permission_id", unique: true
+    t.index ["role_id"], name: "index_roles_permissions_on_role_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -125,6 +142,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_121345) do
   add_foreign_key "organization_memberships", "organizations"
   add_foreign_key "organization_memberships", "roles"
   add_foreign_key "organization_memberships", "users"
+  add_foreign_key "roles_permissions", "permissions"
+  add_foreign_key "roles_permissions", "roles"
   add_foreign_key "sessions", "users"
   add_foreign_key "users", "roles"
 end

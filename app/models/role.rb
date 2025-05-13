@@ -1,5 +1,7 @@
 class Role < ApplicationRecord
   has_many :users
+  has_many :roles_permissions
+  has_many :permissions, through: :roles_permissions
   has_many :organization_memberships
   has_many :organization_invitations
 

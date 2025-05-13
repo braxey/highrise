@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include HasPermissions
   trim_strings_except :password, :password_confirmation
 
   NAME_REGEX = /\A[a-zA-Z\s'-]*\z/
@@ -7,7 +8,6 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
-  belongs_to :role, optional: true
   has_many :organization_memberships, dependent: :destroy
   has_many :organizations, through: :organization_memberships
   has_many :organization_invitations, foreign_key: :invited_by, dependent: :destroy
