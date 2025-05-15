@@ -89,8 +89,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_035523) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
+    t.string "name", null: false
+    t.string "description", null: false
+    t.string "scope", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

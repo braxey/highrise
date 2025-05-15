@@ -28,8 +28,10 @@ Rails.application.routes.draw do
     end
   end
 
-  # Roles.
+  # Roles / Permissions.
   resources :roles, except: :show
+  resources :permissions
+  resources :roles_permissions, only: [ :create, :destroy ]
 
   # Organizations.
   resources :organizations do
